@@ -33,6 +33,9 @@ sap.ui.define([
 			var oModel = this.getModel("Table");
 			await Firebase.getEvents().then((data) => {
 				if (data) {
+					data.sort(function(a, b){
+						return b.id-a.id
+					  })
 					oModel.setProperty("/events", data)
 				}
 			})
