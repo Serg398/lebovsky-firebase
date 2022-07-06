@@ -1,0 +1,46 @@
+<mvc:View
+    controllerName="sap.ui.demo.basicTemplate.controller.Auth"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+    <Page
+        id="Auth"
+        class="sapUiSizeCompact"
+        showHeader="false">
+        <HBox class="auth">
+            <VBox>
+                <Label
+                    text="Авторизация в системе"
+                    class="authLabel colorText" />
+                <Input
+                    id="inputEmail"
+                    width="15rem"
+                    type="Email"
+                    placeholder="Email"
+                    class="sapUiSmallMarginBottom" />
+                <Input
+                    id="inputPass"
+                    value="{Table>/auth/pass}"
+                    type="Password"
+                    placeholder="Пароль"
+                    class="sapUiSmallMarginBottom" />
+                <HBox>
+                    <Button
+                        type="Accept"
+                        text="Войти"
+                        press="pressLogin"
+                        ariaDescribedBy="acceptButtonDescription genericButtonDescription">
+                        <layoutData>
+                            <FlexItemData growFactor="1" />
+                        </layoutData>
+                    </Button>
+                    <Button
+                        text="Зарегистрироваться"
+                        press="pressRouteRegistrate" />
+                </HBox>
+            </VBox>
+        </HBox>
+    </Page>
+</mvc:View>

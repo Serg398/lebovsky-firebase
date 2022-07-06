@@ -1,0 +1,50 @@
+<mvc:View
+    controllerName="sap.ui.demo.basicTemplate.controller.Register"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+    <Page
+        id="Register"
+        showHeader="false"
+        class="sapUiSizeCompact">
+        <HBox class="auth">
+            <VBox>
+                <Label
+                    text="Регистрация"
+                    class="regLabel colorText" />
+                <Input
+                    width="15rem"
+                    value="{Table>/register/name}"
+                    placeholder="Имя"
+                    class="sapUiSmallMarginBottom" />
+                <Input
+                    width="15rem"
+                    value="{Table>/register/firstname}"
+                    placeholder="Фамилия"
+                    class="sapUiSmallMarginBottom" />
+                <Input
+                    value="{Table>/register/email}"
+                    type="Email"
+                    placeholder="Email"
+                    class="sapUiSmallMarginBottom" />
+                <Input
+                    value="{Table>/register/pass}"
+                    type="Password"
+                    placeholder="Пароль"
+                    class="sapUiSmallMarginBottom" />
+                <Button
+                    width="15rem"
+                    type="Accept"
+                    text="Зарегистрироваться"
+                    press="addUser"
+                    ariaDescribedBy="acceptButtonDescription genericButtonDescription">
+                    <layoutData>
+                        <FlexItemData growFactor="1" />
+                    </layoutData>
+                </Button>
+            </VBox>
+        </HBox>
+    </Page>
+</mvc:View>

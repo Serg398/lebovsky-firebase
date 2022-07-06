@@ -1,0 +1,71 @@
+.sapMITH {
+    background-color: rgb(145, 204, 255);
+}
+
+.imgCahsItem {
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    
+}
+
+.balance {
+    padding-right: 3rem;
+}
+
+.fragmentLabel {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    margin-top: 0.3rem;
+}
+
+.sapMDialog.sapMPopup-CTX>header .sapMHeader-CTX, .sapMDialog.sapMPopup-CTX>header .sapMSubHeader-CTX {
+    background-color: #9db1c4;
+}
+
+.datePicker {
+    padding-left:  1rem;
+}
+
+.money {
+    padding-left: 5rem;
+}
+
+.dp {
+    padding-left: 0.5rem;
+}
+
+.auth {
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20%;
+}
+
+.authLabel{
+    font-size: 20px;
+    margin-left: 5%;
+    margin-bottom: 20%;
+}
+
+.fragment{
+    font-size: 14px;
+    margin-top: 10%;
+    margin-left: 0.5rem;
+}
+
+.fragmentButton{
+    margin-top: 3%;
+}
+
+.regLabel {
+    font-size: 20px;
+    margin-left: 25%;
+    margin-bottom: 20%;
+}  
+
+.sapMShellBrandingBar {
+    height: 0px;
+}
+

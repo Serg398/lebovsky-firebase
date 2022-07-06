@@ -1,0 +1,140 @@
+<mvc:View
+    controllerName="sap.ui.demo.basicTemplate.controller.Profile"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:tnt="sap.tnt"
+    xmlns:u="sap.ui.unified"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+    <Page
+        id="Profile"
+        class="sapUiSizeCompact"
+        showHeader="false">
+        <tnt:ToolPage
+            id="toolPage"
+            class="toolHead">
+            <tnt:header>
+                <tnt:ToolHeader>
+                    <Image
+                        height="2.5rem"
+                        src="https://cdn.icon-icons.com/icons2/1091/PNG/512/profits_78367.png" />
+                    <Title
+                        level="H1"
+                        text="Castula">
+                        <layoutData>
+                            <OverflowToolbarLayoutData shrinkable="true" />
+                        </layoutData>
+                    </Title>
+                    <Title
+                        level="H3"
+                        titleStyle="H6"
+                        text="">
+                        <layoutData>
+                            <OverflowToolbarLayoutData shrinkable="true" />
+                        </layoutData>
+                    </Title>
+                    <ToolbarSpacer>
+                        <layoutData>
+                            <OverflowToolbarLayoutData
+                                priority="NeverOverflow"
+                                minWidth="20px" />
+                        </layoutData>
+                    </ToolbarSpacer>
+                    <tnt:ToolHeaderUtilitySeparator />
+                    <Title
+                        text="Баланс: {Table>/generaluser/money} руб."
+                        class="balance" />
+                    <Title text="{Table>/front/account/data/0/name}" />
+                    <Avatar
+                        src="https://img.icons8.com/color-glass/344/guest-male.png"
+                        displaySize="XS"
+                        backgroundColor="Transparent" />
+                </tnt:ToolHeader>
+            </tnt:header>
+            <tnt:mainContents>
+                <NavContainer id="navCon">
+                    <Page
+                        id="p1"
+                        showHeader="false"
+                        title="События">
+                        <VBox class="sapUiSmallMargin">
+                            <Avatar
+                                src="https://img.icons8.com/color-glass/344/guest-male.png"
+                                displaySize="XS"
+                                backgroundColor="Transparent" />
+                            <u:FileUploader
+                                id="fileUploader"
+                                name="file" />
+                            <Button
+                                text="Upload File"
+                                press="handleUploadPress" />
+                            <f:Form
+                                id="FormDisplayColumn_oneGroup"
+                                editable="true">
+                                <f:title>
+                                    <core:Title text="Общая информация" />
+                                </f:title>
+                                <f:layout>
+                                    <f:ColumnLayout />
+                                </f:layout>
+                                <f:formContainers>
+                                    <f:FormContainer>
+                                        <f:formElements>
+                                            <f:FormElement label="Имя">
+                                                <f:fields>
+                                                    <Text text="{Table>/generaluser/name}" />
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement label="Фамилмя">
+                                                <f:fields>
+                                                    <Text text="{Table>/generaluser/firstname}" />
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement label="Email">
+                                                <f:fields>
+                                                    <Text text="{Table>/generaluser/email}" />
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement label="Город">
+                                                <f:fields>
+                                                    <Text text="{Table>/generaluser/city}" />
+                                                </f:fields>
+                                            </f:FormElement>
+                                        </f:formElements>
+                                    </f:FormContainer>
+                                </f:formContainers>
+                            </f:Form>
+                        </VBox>
+                        <List headerText="Настройки">
+                            <InputListItem label="(Тест) Отображать курс валют в тулбаре:">
+                                <Switch state="true" />
+                            </InputListItem>
+                        </List>
+                    </Page>
+                </NavContainer>
+            </tnt:mainContents>
+        </tnt:ToolPage>
+        <footer>
+            <OverflowToolbar id="otbFooter">
+                <ToolbarSpacer />
+                <Button
+                    type="Accept"
+                    text="Сохранить">
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <Button
+                    type="Reject"
+                    text="Отмена"
+                    press='cancelSetting'>
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

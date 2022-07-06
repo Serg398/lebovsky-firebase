@@ -1,0 +1,219 @@
+<mvc:View
+	controllerName="sap.ui.demo.basicTemplate.controller.Home"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:tnt="sap.tnt"
+	xmlns:core="sap.ui.core"
+	displayBlock="true">
+	<Page
+		id="Main"
+		showHeader="false"
+		enableScrolling="true">
+		<tnt:ToolPage
+			id="toolPage"
+			class="toolHead">
+			<tnt:header>
+				<tnt:ToolHeader>
+					<Image
+						height="2.5rem"
+						src="https://cdn.icon-icons.com/icons2/1091/PNG/512/profits_78367.png" />
+					<Title
+						level="H1"
+						text="Castula">
+						<layoutData>
+							<OverflowToolbarLayoutData shrinkable="true" />
+						</layoutData>
+					</Title>
+					<Title
+						level="H3"
+						titleStyle="H6"
+						text="">
+						<layoutData>
+							<OverflowToolbarLayoutData shrinkable="true" />
+						</layoutData>
+					</Title>
+					<ToolbarSpacer>
+						<layoutData>
+							<OverflowToolbarLayoutData
+								priority="NeverOverflow"
+								minWidth="20px" />
+						</layoutData>
+					</ToolbarSpacer>
+					<tnt:ToolHeaderUtilitySeparator />
+					<Avatar
+						src="https://img.icons8.com/color-glass/344/guest-male.png"
+						displaySize="XS"
+						backgroundColor="Transparent"></Avatar>
+					<Link
+						id="button"
+						text="{Table>/generaluser/name} {Table>/generaluser/firstname}"
+						press="onPressMenu"
+						ariaHasPopup="Menu" />
+				</tnt:ToolHeader>
+			</tnt:header>
+			<tnt:subHeader>
+				<tnt:ToolHeader>
+					<Button
+						text="События"
+						press="handleNav">
+						<layoutData>
+							<FlexItemData growFactor="1" />
+						</layoutData>
+						<customData>
+							<core:CustomData
+								key="target"
+								value="p1" />
+						</customData>
+					</Button>
+					<Button
+						text="Сводка"
+						press="handleNav">
+						<layoutData>
+							<FlexItemData growFactor="1" />
+						</layoutData>
+						<customData>
+							<core:CustomData
+								key="target"
+								value="p2" />
+						</customData>
+					</Button>
+					<Title
+						level="H3"
+						titleStyle="H6"
+						text="">
+						<layoutData>
+							<OverflowToolbarLayoutData shrinkable="true" />
+						</layoutData>
+					</Title>
+					<ToolbarSpacer>
+						<layoutData>
+							<OverflowToolbarLayoutData
+								priority="NeverOverflow"
+								minWidth="20px" />
+						</layoutData>
+					</ToolbarSpacer>
+					<tnt:ToolHeaderUtilitySeparator />
+					<Title text="Ваш баланс: {Table>/generaluser/money} руб." />
+				</tnt:ToolHeader>
+			</tnt:subHeader>
+			<tnt:mainContents>
+				<NavContainer id="navCon">
+					<Page
+						id="p1"
+						showHeader="false"
+						title="События">
+						<Toolbar>
+							<Button
+								text="Новый чек"
+								press="openFragment" />
+						</Toolbar>
+						<List
+							class="sapUiSmallMarginTop"
+							delete="delItemList"
+							mode="None"
+							id="ShortProductList"
+							items="{Table>/events}">
+							<CustomListItem
+								type="Active"
+								press="pressEvent">
+								<HBox>
+									<HBox
+										width="75%"
+										alignItems="Center"
+										alignContent="Center">
+										<core:Icon
+											class="imgCahsItem"
+											color="#1C4C98"
+											width="70px"
+											src="sap-icon://credit-card"
+											size="50px" />
+										<Text
+											class="colorText"
+											width="5rem"
+											text="Чек № {Table>id}" />
+										<Text
+											class="dp colorText"
+											width="5rem"
+											text="{Table>DP}" />
+										<VBox>
+											<HBox>
+												<Text
+													width="3rem"
+													text="Кто: "
+													class="sapUiSmallMarginBegin colorText" />
+												<Text
+													width="20rem"
+													text="{Table>name1} {Table>firstname1}"
+													class="sapUiSmallMarginBegin colorText" />
+											</HBox>
+											<HBox>
+												<Text
+													width="3rem"
+													text="Кому: "
+													class="sapUiSmallMarginBegin colorText" />
+												<Text
+													width="20rem"
+													text="{Table>name2} {Table>firstname2}"
+													class="sapUiSmallMarginBegin colorText" />
+											</HBox>
+										</VBox>
+									</HBox>
+									<HBox
+										width="30%"
+										alignItems="Center"
+										alignContent="Center">
+										<Text
+											width="7.5rem"
+											text="Размер суммы: "
+											class="sapUiSmallMarginBegin colorText" />
+										<Text
+											class="balance"
+											width="7rem"
+											text="{Table>money} руб." />
+										<core:Icon
+											src="sap-icon://post"
+											color="#1C4C98"
+											size="25px"
+											width="50px"
+											press="comentPopoverPress" />
+										<core:Icon
+											press="deleteEvent"
+											color="#1C4C98"
+											width="50px"
+											src="sap-icon://delete"
+											size="25px" />
+									</HBox>
+								</HBox>
+							</CustomListItem>
+						</List>
+					</Page>
+					<Page
+						id="p2"
+						showHeader="false"
+						title="Общая сводка">
+						<FlexBox
+							direction="Row"
+							renderType="Bare"
+							wrap="Wrap"
+							width="100%"
+							displayInline="true"
+							fitContainer="true"
+							items="{Table>/users}">
+							<items class="tail">
+								<GenericTile
+									header="{Table>name}"
+									subheader="Баланс: {Table>money}"
+									press="onTilePress">
+									<TileContent>
+										<ImageContent src="https://cdn-icons-png.flaticon.com/512/18/18221.png?w=826" />
+									</TileContent>
+								</GenericTile>
+							</items>
+						</FlexBox>
+					</Page>
+				</NavContainer>
+			</tnt:mainContents>
+		</tnt:ToolPage>
+	</Page>
+</mvc:View>

@@ -1,0 +1,14 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Menu
+		itemSelected="onMenuAction"
+		class="sapUiSizeCompact">
+		<MenuItem
+			text="Настройки"
+			press="pressSettings" />
+		<MenuItem
+			text="Выйти"
+			press="logout" />
+	</Menu>
+</core:FragmentDefinition>
