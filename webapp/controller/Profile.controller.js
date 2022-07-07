@@ -1,44 +1,70 @@
 sap.ui.define([
 	'./BaseController',
-	"sap/ui/core/mvc/Controller",
-], function (BaseController) {
+	'../module/Firebase',
+	'sap/m/MessageToast',
+	'sap/ui/core/BusyIndicator'
+], function (BaseController, Firebase, MessageToast, BusyIndicator) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.basicTemplate.controller.Profile", {
 
 		onInit: function () {
 			this.oRouter = this.getOwnerComponent().getRouter();
-			var oModel = this.getModel("Table");
-			
+			this.getGeneralUser();
 		},
 
 		cancelSetting: function () {
-			this.oRouter.navTo("home")
+			this.oRouter.navTo("home");
 		},
 
-		// handleUploadPress: function () {
-		// 	var oModel = this.getModel("Table");
-		// 	var sHost = oModel.getProperty('/host');
+		saveSetting: function () {
+			this.getGeneralUser();
+			this.oRouter.navTo("home");
+		},
 
-		// 	var oFileUploader = this.byId("fileUploader");
-		// 	var domRef = oFileUploader.getFocusDomRef();
-		// 	var file = domRef.files[0];
+		uploadAvatar: async function () {
+			this.showBusyIndicator();
+			var file = this.getView().getDomRef("-avatar");
+			if (file.files[0] === undefined) {
+				MessageToast.show("Вы не выбрали файл");
+			} else {
+					Firebase.uploadAvatarFB(file)
+					this.getGeneralUser();
+					this.hideBusyIndicator();
+			}
 
-		// 	var response = fetch(sHost + ':5000/api/upload', {
-		// 		credentials: 'include',
-		// 		method: 'POST',
-		// 		body: file,
-		// 		headers: {
-		// 			'Access-Control-Allow-Origin': sHost,
-		// 			'Content-Type': 'image/png'
-		// 		}
-		// 	});
-		// 	if (response.ok) {
-		// 		this.restUpdateList();
-		// 		return response.status;
-		// 	} else {
-		// 		alert('error', response.status);
-		// 	}
-		// }
+		},
+
+		getGeneralUser: async function () {
+			var oModel = this.getModel("Table");
+			Firebase.checkAutorisation().onAuthStateChanged((user) => {
+				if (user) {
+					Firebase.getDocument("users", user.email).then((doc) => {
+						oModel.setProperty("/generaluser", doc.data())
+					})
+				} else {
+					this.oRouter.navTo("auth");
+				}
+			});
+		},
+
+		hideBusyIndicator: function () {
+			BusyIndicator.hide();
+		},
+
+		showBusyIndicator: function (iDuration, iDelay) {
+			BusyIndicator.show(iDelay);
+
+			if (iDuration && iDuration > 0) {
+				if (this._sTimeoutId) {
+					clearTimeout(this._sTimeoutId);
+					this._sTimeoutId = null;
+				}
+
+				this._sTimeoutId = setTimeout(function () {
+					this.hideBusyIndicator();
+				}.bind(this), iDuration);
+			}
+		},
 	});
 });

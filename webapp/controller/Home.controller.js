@@ -5,8 +5,10 @@ sap.ui.define([
 	'sap/ui/core/BusyIndicator',
 	"sap/m/MessageBox",
 	"../module/Firebase",
-], function (BaseController, Fragment, MessageToast, BusyIndicator, MessageBox, Firebase) {
+	"sap/ui/Device"
+], function (BaseController, Fragment, MessageToast, BusyIndicator, MessageBox, Firebase, Device) {
 	"use strict";
+
 
 	return BaseController.extend("sap.ui.demo.basicTemplate.controller.Home", {
 
@@ -17,8 +19,9 @@ sap.ui.define([
 			Firebase.checkAutorisation().onAuthStateChanged((user) => {
 				if (user) {
 					Firebase.getDocument("users", user.email).then((doc) => {
+						console.log(doc.data())
 						oModel.setProperty("/generaluser", doc.data())
-					}) 
+					})
 				} else {
 					this.oRouter.navTo("auth");
 				}
@@ -27,21 +30,29 @@ sap.ui.define([
 			this.getAllUsers()
 		},
 
-		
+		checker: function () {
+			db.collection("users").doc("kserg398@gmail.com")
+				.onSnapshot({
+					// Listen for document metadata changes
+					includeMetadataChanges: true
+				}, (doc) => {
+					console.log("!!!!!!!!")
+				});
+		},
 
-		getAllEvents: async function() {
+		getAllEvents: async function () {
 			var oModel = this.getModel("Table");
 			await Firebase.getEvents().then((data) => {
 				if (data) {
-					data.sort(function(a, b){
-						return b.id-a.id
-					  })
+					data.sort(function (a, b) {
+						return b.id - a.id
+					})
 					oModel.setProperty("/events", data)
 				}
 			})
 		},
 
-		getAllUsers: async function() {
+		getAllUsers: async function () {
 			this.showBusyIndicator()
 			var oModel = this.getModel("Table");
 			await Firebase.getUsers().then((data) => {
@@ -53,7 +64,7 @@ sap.ui.define([
 				if (user) {
 					Firebase.getDocument("users", user.email).then((doc) => {
 						oModel.setProperty("/generaluser", doc.data())
-					}) 
+					})
 				} else {
 					this.oRouter.navTo("auth");
 				}
@@ -84,7 +95,7 @@ sap.ui.define([
 						oDialog.destroy();
 						this.pDialog = null;
 					}.bind(this))
-					
+
 				};
 			} else {
 				var oModel = this.getModel("Table");
@@ -113,7 +124,7 @@ sap.ui.define([
 		},
 
 		deleteEvent: async function (oEvent) {
-			
+
 			var oModel = this.getModel("Table");
 			var oContext = oEvent.getSource().getBindingContext("Table").sPath;
 			MessageBox.warning("Вы действительно хотите удалить транзакцию?", {
@@ -130,14 +141,14 @@ sap.ui.define([
 					}
 				}.bind(this)
 			});
-			
+
 		},
 
-		hideBusyIndicator : function() {
+		hideBusyIndicator: function () {
 			BusyIndicator.hide();
 		},
 
-		showBusyIndicator : function (iDuration, iDelay) {
+		showBusyIndicator: function (iDuration, iDelay) {
 			BusyIndicator.show(iDelay);
 
 			if (iDuration && iDuration > 0) {
@@ -146,7 +157,7 @@ sap.ui.define([
 					this._sTimeoutId = null;
 				}
 
-				this._sTimeoutId = setTimeout(function() {
+				this._sTimeoutId = setTimeout(function () {
 					this.hideBusyIndicator();
 				}.bind(this), iDuration);
 			}

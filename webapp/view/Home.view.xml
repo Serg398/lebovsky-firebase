@@ -42,7 +42,7 @@
 					</ToolbarSpacer>
 					<tnt:ToolHeaderUtilitySeparator />
 					<Avatar
-						src="https://img.icons8.com/color-glass/344/guest-male.png"
+						src="{Table>/generaluser/AvatarUrl}"
 						displaySize="XS"
 						backgroundColor="Transparent"></Avatar>
 					<Link
@@ -108,7 +108,7 @@
 								text="Новый чек"
 								press="openFragment" />
 						</Toolbar>
-						<List
+						<List 
 							class="sapUiSmallMarginTop"
 							delete="delItemList"
 							mode="None"
@@ -123,6 +123,7 @@
 										alignItems="Center"
 										alignContent="Center">
 										<core:Icon
+											visible = "{= !${device>/system/phone} }"
 											class="imgCahsItem"
 											color="#1C4C98"
 											width="70px"
@@ -137,7 +138,7 @@
 											width="5rem"
 											text="{Table>DP}" />
 										<VBox>
-											<HBox>
+											<HBox >
 												<Text
 													width="3rem"
 													text="Кто: "

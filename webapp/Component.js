@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
 	"./model/models",
-	"sap/ui/model/json/JSONModel"
-], function(UIComponent, Device, models, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"./module/Firebase"
+], function(UIComponent, Device, models, JSONModel, Firebase) {
 	"use strict";
 
 	return UIComponent.extend("sap.ui.demo.basicTemplate.Component", {
@@ -23,18 +24,12 @@ sap.ui.define([
 
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
-
 			// create the views based on the url/hash
 			this.getRouter().initialize();
 			
 			var oData = [];
 			var oModel = new JSONModel(oData);
 			this.setModel(oModel, "Table");
-			
-			var sUrl = window.location.hostname === 'lebovsky.site' ? 'http://lebovsky.site' : 'http://127.0.0.1'
-			oModel.setProperty("/host", sUrl)
-
-			
 		}
 	});
 });

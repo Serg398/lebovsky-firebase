@@ -15,7 +15,39 @@ sap.ui.define([
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
 
+
       return {
+
+            downAvatarFB: async function () {
+                  var storageRef = firebase.storage().ref();
+                  firebase.auth().onAuthStateChanged((user) => {
+                        if (user) {
+                              this.getDocument("users", user.email).then((doc) => {
+                                    storageRef.child('avatars/' + user.email).getDownloadURL()
+                                          .then((url) => {
+                                                db.collection("users").doc(user.email).update({
+                                                      AvatarUrl: url
+                                                })
+                                          })
+                              })
+                        } else {
+                              this.oRouter.navTo("auth");
+                        }
+                  });
+            },
+
+            uploadAvatarFB: async  function (file) {
+                  var oFile = file.files[0];
+                  await firebase.auth().onAuthStateChanged((user) => {
+                        if (user) {
+                              var storageRef = firebase.storage().ref();
+                              storageRef.child('avatars/' + user.email).put(oFile);
+                        } else {
+                              console.log("Error")
+
+                        }
+                  });
+            },
 
             //Documents
             getDocument: function (oCollection, oDocument) {
@@ -30,7 +62,6 @@ sap.ui.define([
                   return sUsers
             },
 
-
             //Auth and Register
             register: function (email, password) {
                   return firebase.auth().createUserWithEmailAndPassword(email, password);
@@ -40,13 +71,13 @@ sap.ui.define([
                   return firebase.auth().signInWithEmailAndPassword(email, password);
             },
 
-            logOut: function() {
+            logOut: function () {
                   firebase.auth().signOut().then(() => {
                         this.oRouter = this.getOwnerComponent().getRouter();
                         this.oRouter.navTo("auth");
-                      }).catch((error) => {
+                  }).catch((error) => {
                         // An error happened.
-                      });
+                  });
             },
 
             addNewUser: function (email, oFormRegister) {

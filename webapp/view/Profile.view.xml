@@ -48,7 +48,7 @@
                         class="balance" />
                     <Title text="{Table>/front/account/data/0/name}" />
                     <Avatar
-                        src="https://img.icons8.com/color-glass/344/guest-male.png"
+                        src="{Table>/generaluser/AvatarUrl}"
                         displaySize="XS"
                         backgroundColor="Transparent" />
                 </tnt:ToolHeader>
@@ -61,15 +61,30 @@
                         title="События">
                         <VBox class="sapUiSmallMargin">
                             <Avatar
-                                src="https://img.icons8.com/color-glass/344/guest-male.png"
-                                displaySize="XS"
-                                backgroundColor="Transparent" />
-                            <u:FileUploader
-                                id="fileUploader"
-                                name="file" />
+							src="{Table>/generaluser/AvatarUrl}"
+							displaySize="L"
+							displayShape="Circle">
+						<detailBox>
+							<LightBox>
+								<LightBoxItem
+										imageSrc="{Table>/generaluser/AvatarUrl}"
+										alt="Michael Adams"
+										title="This is Michael Adams"
+										subtitle="Michael Adams Human Relations">
+								</LightBoxItem>
+							</LightBox>
+						</detailBox>
+					</Avatar>
+                                <html:input id="avatar" type="file" accept=".jpg,.jpeg,.png"/>
                             <Button
-                                text="Upload File"
-                                press="handleUploadPress" />
+                                text="Загрузить"
+                                press="uploadAvatar" />
+                            <ProgressIndicator
+                                class="sapUiSmallMarginBottom"
+                                percentValue="40"
+                                displayValue="40%"
+                                showValue="true"
+                                state="Information" />
                             <f:Form
                                 id="FormDisplayColumn_oneGroup"
                                 editable="true">
@@ -121,7 +136,8 @@
                 <ToolbarSpacer />
                 <Button
                     type="Accept"
-                    text="Сохранить">
+                    text="Сохранить"
+                    press='saveSetting'>
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
                     </layoutData>
