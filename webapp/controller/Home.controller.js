@@ -34,8 +34,6 @@ sap.ui.define([
 					MessageToast.show("Заполните все поля");
 				} else {
 					await Firebase.addNewEvent(oNewItem)
-					await Firebase.getEvents.call(this)
-					await Firebase.getAllUsers.call(this)
 					await Firebase.getGeneralUser.call(this)
 					oModel.setProperty("/new", {});
 					oModel.setProperty("/tempitem", {});
@@ -56,8 +54,6 @@ sap.ui.define([
 					oTempItem.name2) {
 					oNewItem.oldmoney = oTempItem.money
 					await Firebase.editEvent(oNewItem)
-					await Firebase.getEvents.call(this)
-					await Firebase.getAllUsers.call(this)
 					await Firebase.getGeneralUser.call(this)
 					oModel.setProperty("/new", {});
 					oModel.setProperty("/tempitem", {});
@@ -84,8 +80,6 @@ sap.ui.define([
 						this.showBusyIndicator()
 						var oDelItem = oModel.getProperty(oContext);
 						await Firebase.deleteEvent(oDelItem.id)
-						await Firebase.getEvents.call(this)
-						await Firebase.getAllUsers.call(this)
 						this.hideBusyIndicator()
 					}
 				}.bind(this)

@@ -64,9 +64,19 @@ sap.ui.define([
                   var oModel = this.getModel("Table");
                   firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
-                              db.collection("users").doc(user.email).onSnapshot((doc) => {
-                                    oModel.setProperty("/generaluser", doc.data())
-                              });
+                              db.collection("users").where("email", "==", user.email)
+                                    .onSnapshot((querySnapshot) => {
+                                          var generalusers = [];
+                                          querySnapshot.forEach((doc) => {
+                                                generalusers.push(doc.data());
+                                          });
+                                          oModel.setProperty("/generaluser", generalusers[0])
+                                    });
+
+
+                              // db.collection("users").doc(user.email).onSnapshot((doc) => {
+                              //       oModel.setProperty("/generaluser", doc.data())
+                              // });
                         } else {
                               this.oRouter.navTo("auth");
                         }
