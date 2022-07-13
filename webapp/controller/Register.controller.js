@@ -18,7 +18,6 @@ sap.ui.define([
 			var oFormRegister = oModel.getProperty("/register")
 			Firebase.register(oFormRegister.email, oFormRegister.pass).then((userCredential) => {
 				var email = userCredential.user.email
-				console.log(email)
 				if (email != ""){
 					Firebase.addNewUser(email, oFormRegister)
 					this.oRouter.navTo("auth");

@@ -37,7 +37,6 @@ sap.ui.define([
 					await Firebase.getEvents.call(this)
 					await Firebase.getAllUsers.call(this)
 					await Firebase.getGeneralUser.call(this)
-					console.log(oNewItem)
 					oModel.setProperty("/new", {});
 					oModel.setProperty("/tempitem", {});
 					this.pDialog.then(function (oDialog) {

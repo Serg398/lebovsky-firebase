@@ -49,6 +49,7 @@ sap.ui.define([
 
             addNewUser: function (email, oFormRegister) {
                   var userForm = {
+                        "type": "user",
                         "name": oFormRegister.name,
                         "firstname": oFormRegister.firstname,
                         "email": email,
@@ -191,7 +192,6 @@ sap.ui.define([
                                           var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                                           oProgressIndicator.setDisplayValue(progress + '%');
                                           oProgressIndicator.setPercentValue(+progress);
-                                          console.log('Upload is ' + progress + '% done');
                                           if (progress === 100) {
                                                 storageRef.child('avatars/' + user.email).getDownloadURL().then(async (url) => {
                                                       await db.collection("users").doc(user.email).update({
@@ -200,7 +200,6 @@ sap.ui.define([
                                                       await db.collection("users").doc(user.email).get().then((doc) => {
                                                             var sGeneralUser = doc.data()
                                                             oModel.setProperty("/generaluser", sGeneralUser)
-                                                            console.log("Обновляю")
                                                             oModel.setProperty("/indicator", false)
 
                                                       })
