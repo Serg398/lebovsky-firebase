@@ -61,26 +61,32 @@
                         title="События">
                         <VBox class="sapUiSmallMargin">
                             <Avatar
-							src="{Table>/generaluser/AvatarUrl}"
-							displaySize="L"
-							displayShape="Circle">
-						<detailBox>
-							<LightBox>
-								<LightBoxItem
-										imageSrc="{Table>/generaluser/AvatarUrl}"
-										alt="Michael Adams"
-										title="This is Michael Adams"
-										subtitle="Michael Adams Human Relations">
-								</LightBoxItem>
-							</LightBox>
-						</detailBox>
-					</Avatar>
-                                <html:input id="avatar" type="file" accept=".jpg,.jpeg,.png"/>
-                            <Button
-                                text="Загрузить"
-                                press="uploadAvatar" />
+                                src="{Table>/generaluser/AvatarUrl}"
+                                displaySize="L"
+                                displayShape="Circle">
+                                <detailBox>
+                                    <LightBox>
+                                        <LightBoxItem
+                                            imageSrc="{Table>/generaluser/AvatarUrl}"
+                                            alt="Michael Adams"
+                                            title="{Table>/generaluser/name} {Table>/generaluser/firstname}"
+                                            subtitle="Организация: Lebovsky"></LightBoxItem>
+                                    </LightBox>
+                                </detailBox>
+                            </Avatar>
+                            <HBox
+                                alignItems="Center"
+                                alignContent="Center">
+                                <Button
+                                    text="Загрузить"
+                                    press="uploadAvatar" />
+                                <html:input
+                                    id="avatar"
+                                    type="file"
+                                    accept=".jpg,.jpeg,.png" />
+                            </HBox>
                             <ProgressIndicator
-                                displayAnimation= "false"
+                                displayAnimation="false"
                                 visible="{Table>/indicator}"
                                 width="20%"
                                 id="Progress"
