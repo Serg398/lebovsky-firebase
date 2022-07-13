@@ -15,10 +15,10 @@ sap.ui.define([
 
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
-      
+
 
       return {
-            
+
             //Documents
             getDocument: function (oCollection, oDocument) {
                   return db.collection(oCollection).doc(oDocument).get()
@@ -64,9 +64,9 @@ sap.ui.define([
                   var oModel = this.getModel("Table");
                   firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
-                              db.collection("users").doc(user.email).get().then((doc) => {
+                              db.collection("users").doc(user.email).onSnapshot((doc) => {
                                     oModel.setProperty("/generaluser", doc.data())
-                              })
+                              });
                         } else {
                               this.oRouter.navTo("auth");
                         }
@@ -94,6 +94,7 @@ sap.ui.define([
                         return doc.data()
                   })
                   let oNewEvent = {
+                        "type": "event",
                         "DP": dataDocument.DP,
                         "id": oID + 1,
                         "money": dataDocument.money,
@@ -140,16 +141,17 @@ sap.ui.define([
 
             getEvents: async function () {
                   var oModel = this.getModel("Table");
-                  db.collection("events").get().then((querySnapshot) => {
-                        var oEvents = querySnapshot.docs.map((doc) => {
-                              return doc.data()
+                  db.collection("events").where("type", "==", "event")
+                        .onSnapshot((querySnapshot) => {
+                              var cities = [];
+                              querySnapshot.forEach((doc) => {
+                                    cities.push(doc.data());
+                              });
+                              var sortEvents = cities.sort(function (a, b) {
+                                    return b.id - a.id
+                              })
+                              oModel.setProperty("/events", sortEvents)
                         });
-                        var sortEvents = oEvents.sort(function (a, b) {
-                              return b.id - a.id
-                        })
-                        oModel.setProperty("/events", sortEvents)
-                  });
-
             },
 
             editMoney: async function (email1, email2, money, status) {
@@ -176,7 +178,7 @@ sap.ui.define([
                         })
                   }
             },
-            
+
             uploadAvatarFB: async function (file) {
                   var oModel = this.getView().getModel("Table");
                   oModel.setProperty("/indicator", true)
@@ -187,7 +189,6 @@ sap.ui.define([
                         if (user) {
                               var storageRef = firebase.storage().ref();
                               var uploadTask = storageRef.child('avatars/' + user.email).put(oFile);
-                              
                               uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
                                     (snapshot) => {
                                           var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -195,7 +196,7 @@ sap.ui.define([
                                           oProgressIndicator.setPercentValue(+progress);
                                           console.log('Upload is ' + progress + '% done');
                                           if (progress === 100) {
-                                                storageRef.child('avatars/' + user.email).getDownloadURL().then(async (url)  => {
+                                                storageRef.child('avatars/' + user.email).getDownloadURL().then(async (url) => {
                                                       await db.collection("users").doc(user.email).update({
                                                             AvatarUrl: url
                                                       })
@@ -204,11 +205,11 @@ sap.ui.define([
                                                             oModel.setProperty("/generaluser", sGeneralUser)
                                                             console.log("Обновляю")
                                                             oModel.setProperty("/indicator", false)
-                                                            
+
                                                       })
                                                 })
                                           }
-                                          
+
                                     })
                         } else {
                               this.oRouter.navTo("auth");
