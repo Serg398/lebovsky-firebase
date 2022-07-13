@@ -166,7 +166,9 @@ sap.ui.define([
 		},
 
 		logout: function () {
-			Firebase.logOut()
+			Firebase.logOut().then(() => {
+				this.oRouter.navTo("auth");
+		  })
 		},
 
 		handleNav: function (evt) {

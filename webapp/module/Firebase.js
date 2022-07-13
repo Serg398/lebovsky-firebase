@@ -44,10 +44,7 @@ sap.ui.define([
             },
 
             logOut: function () {
-                  firebase.auth().signOut().then(() => {
-                        this.oRouter = this.getOwnerComponent().getRouter();
-                        this.oRouter.navTo("auth");
-                  })
+                  return firebase.auth().signOut()
             },
 
             addNewUser: function (email, oFormRegister) {
