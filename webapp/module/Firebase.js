@@ -26,12 +26,14 @@ sap.ui.define([
 
             getAllUsers: function () {
                   var oModel = this.getModel("Table");
-                  db.collection("users").get().then((querySnapshot) => {
-                        var oUsers = querySnapshot.docs.map((doc) => {
-                              return doc.data()
+                  db.collection("users").where("type", "==", "user")
+                        .onSnapshot((querySnapshot) => {
+                              var users = [];
+                              querySnapshot.forEach((doc) => {
+                                    users.push(doc.data());
+                              });
+                              oModel.setProperty("/users", users)
                         });
-                        oModel.setProperty("/users", oUsers)
-                  });
             },
 
             //Auth and Register
