@@ -108,7 +108,7 @@
 								text="Новый чек"
 								press="openFragment" />
 						</Toolbar>
-						<List 
+						<List
 							class="sapUiSmallMarginTop"
 							delete="delItemList"
 							mode="None"
@@ -123,7 +123,7 @@
 										alignItems="Center"
 										alignContent="Center">
 										<core:Icon
-											visible = "{= !${device>/system/phone} }"
+											visible="{= !${device>/system/phone} }"
 											class="imgCahsItem"
 											color="#1C4C98"
 											width="70px"
@@ -138,7 +138,7 @@
 											width="5rem"
 											text="{Table>DP}" />
 										<VBox>
-											<HBox >
+											<HBox>
 												<Text
 													width="3rem"
 													text="Кто: "
@@ -203,13 +203,28 @@
 							items="{Table>/users}">
 							<items class="tail">
 								<GenericTile
+									class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+									header="{Table>name} {Table>firstname}"
+									subheader="Lebovsky"
+									press="press"
+									appShortcut="Баланс:"
+									systemInfo="{Table>money}">
+									<TileContent>
+										<Avatar
+											src="{Table>AvatarUrl}"
+											displayShape="Square"
+											displaySize="L"
+											backgroundColor="Transparent"></Avatar>
+									</TileContent>
+								</GenericTile>
+								<!-- <GenericTile
 									header="{Table>name}"
 									subheader="Баланс: {Table>money}"
 									press="onTilePress">
 									<TileContent>
 										<ImageContent src="https://cdn-icons-png.flaticon.com/512/18/18221.png?w=826" />
 									</TileContent>
-								</GenericTile>
+								</GenericTile> -->
 							</items>
 						</FlexBox>
 					</Page>

@@ -16,60 +16,9 @@ sap.ui.define([
 			var oModel = this.getModel("Table");
 			oModel.setProperty("/new", {});
 			this.oRouter = this.getOwnerComponent().getRouter();
-			Firebase.checkAutorisation().onAuthStateChanged((user) => {
-				if (user) {
-					Firebase.getDocument("users", user.email).then((doc) => {
-						console.log(doc.data())
-						oModel.setProperty("/generaluser", doc.data())
-					})
-				} else {
-					this.oRouter.navTo("auth");
-				}
-			});
-			this.getAllEvents()
-			this.getAllUsers()
-		},
-
-		checker: function () {
-			db.collection("users").doc("kserg398@gmail.com")
-				.onSnapshot({
-					// Listen for document metadata changes
-					includeMetadataChanges: true
-				}, (doc) => {
-					console.log("!!!!!!!!")
-				});
-		},
-
-		getAllEvents: async function () {
-			var oModel = this.getModel("Table");
-			await Firebase.getEvents().then((data) => {
-				if (data) {
-					data.sort(function (a, b) {
-						return b.id - a.id
-					})
-					oModel.setProperty("/events", data)
-				}
-			})
-		},
-
-		getAllUsers: async function () {
-			this.showBusyIndicator()
-			var oModel = this.getModel("Table");
-			await Firebase.getUsers().then((data) => {
-				if (data) {
-					oModel.setProperty("/users", data)
-				}
-			})
-			Firebase.checkAutorisation().onAuthStateChanged((user) => {
-				if (user) {
-					Firebase.getDocument("users", user.email).then((doc) => {
-						oModel.setProperty("/generaluser", doc.data())
-					})
-				} else {
-					this.oRouter.navTo("auth");
-				}
-			});
-			this.hideBusyIndicator()
+			Firebase.getGeneralUser.call(this)
+			Firebase.getAllUsers.call(this)
+			Firebase.getEvents.call(this)
 		},
 
 		addEvent: async function () {
@@ -85,8 +34,9 @@ sap.ui.define([
 					MessageToast.show("Заполните все поля");
 				} else {
 					await Firebase.addNewEvent(oNewItem)
-					await this.getAllEvents()
-					await this.getAllUsers()
+					await Firebase.getEvents.call(this)
+					await Firebase.getAllUsers.call(this)
+					await Firebase.getGeneralUser.call(this)
 					console.log(oNewItem)
 					oModel.setProperty("/new", {});
 					oModel.setProperty("/tempitem", {});
@@ -107,8 +57,9 @@ sap.ui.define([
 					oTempItem.name2) {
 					oNewItem.oldmoney = oTempItem.money
 					await Firebase.editEvent(oNewItem)
-					await this.getAllEvents()
-					await this.getAllUsers()
+					await Firebase.getEvents.call(this)
+					await Firebase.getAllUsers.call(this)
+					await Firebase.getGeneralUser.call(this)
 					oModel.setProperty("/new", {});
 					oModel.setProperty("/tempitem", {});
 					this.pDialog.then(function (oDialog) {
@@ -124,7 +75,6 @@ sap.ui.define([
 		},
 
 		deleteEvent: async function (oEvent) {
-
 			var oModel = this.getModel("Table");
 			var oContext = oEvent.getSource().getBindingContext("Table").sPath;
 			MessageBox.warning("Вы действительно хотите удалить транзакцию?", {
@@ -135,8 +85,8 @@ sap.ui.define([
 						this.showBusyIndicator()
 						var oDelItem = oModel.getProperty(oContext);
 						await Firebase.deleteEvent(oDelItem.id)
-						await this.getAllEvents()
-						await this.getAllUsers()
+						await Firebase.getEvents.call(this)
+						await Firebase.getAllUsers.call(this)
 						this.hideBusyIndicator()
 					}
 				}.bind(this)
@@ -150,7 +100,6 @@ sap.ui.define([
 
 		showBusyIndicator: function (iDuration, iDelay) {
 			BusyIndicator.show(iDelay);
-
 			if (iDuration && iDuration > 0) {
 				if (this._sTimeoutId) {
 					clearTimeout(this._sTimeoutId);

@@ -80,9 +80,13 @@
                                 text="Загрузить"
                                 press="uploadAvatar" />
                             <ProgressIndicator
+                                displayAnimation= "false"
+                                visible="{Table>/indicator}"
+                                width="20%"
+                                id="Progress"
                                 class="sapUiSmallMarginBottom"
-                                percentValue="40"
-                                displayValue="40%"
+                                percentValue="0"
+                                displayValue="0%"
                                 showValue="true"
                                 state="Information" />
                             <f:Form

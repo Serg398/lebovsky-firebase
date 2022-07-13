@@ -1,6 +1,7 @@
 sap.ui.define([
+      '../controller/BaseController',
       "sap/ui/model/json/JSONModel",
-], function (JSONModel) {
+], function (BaseController, JSONModel) {
       "use strict";
 
       const firebaseConfig = {
@@ -17,49 +18,20 @@ sap.ui.define([
 
 
       return {
-
-            downAvatarFB: async function () {
-                  var storageRef = firebase.storage().ref();
-                  firebase.auth().onAuthStateChanged((user) => {
-                        if (user) {
-                              this.getDocument("users", user.email).then((doc) => {
-                                    storageRef.child('avatars/' + user.email).getDownloadURL()
-                                          .then((url) => {
-                                                db.collection("users").doc(user.email).update({
-                                                      AvatarUrl: url
-                                                })
-                                          })
-                              })
-                        } else {
-                              this.oRouter.navTo("auth");
-                        }
-                  });
-            },
-
-            uploadAvatarFB: async  function (file) {
-                  var oFile = file.files[0];
-                  await firebase.auth().onAuthStateChanged((user) => {
-                        if (user) {
-                              var storageRef = firebase.storage().ref();
-                              storageRef.child('avatars/' + user.email).put(oFile);
-                        } else {
-                              console.log("Error")
-
-                        }
-                  });
-            },
-
+            
             //Documents
             getDocument: function (oCollection, oDocument) {
                   return db.collection(oCollection).doc(oDocument).get()
             },
 
-            getUsers: async function () {
-                  let oUsers = await db.collection('users').get().then()
-                  let sUsers = oUsers.docs.map((doc) => {
-                        return doc.data()
+            getAllUsers: function () {
+                  var oModel = this.getModel("Table");
+                  db.collection("users").get().then((querySnapshot) => {
+                        var oUsers = querySnapshot.docs.map((doc) => {
+                              return doc.data()
+                        });
+                        oModel.setProperty("/users", oUsers)
                   });
-                  return sUsers
             },
 
             //Auth and Register
@@ -75,13 +47,10 @@ sap.ui.define([
                   firebase.auth().signOut().then(() => {
                         this.oRouter = this.getOwnerComponent().getRouter();
                         this.oRouter.navTo("auth");
-                  }).catch((error) => {
-                        // An error happened.
-                  });
+                  })
             },
 
             addNewUser: function (email, oFormRegister) {
-
                   var userForm = {
                         "name": oFormRegister.name,
                         "firstname": oFormRegister.firstname,
@@ -91,8 +60,17 @@ sap.ui.define([
                   db.collection("users").doc(email).set(userForm);
             },
 
-            checkAutorisation: function () {
-                  return firebase.auth();
+            getGeneralUser: function () {
+                  var oModel = this.getModel("Table");
+                  firebase.auth().onAuthStateChanged((user) => {
+                        if (user) {
+                              db.collection("users").doc(user.email).get().then((doc) => {
+                                    oModel.setProperty("/generaluser", doc.data())
+                              })
+                        } else {
+                              this.oRouter.navTo("auth");
+                        }
+                  });
             },
 
 
@@ -161,11 +139,17 @@ sap.ui.define([
             },
 
             getEvents: async function () {
-                  let oEvents = await db.collection('events').get().then()
-                  let sEvent = oEvents.docs.map((doc) => {
-                        return doc.data()
+                  var oModel = this.getModel("Table");
+                  db.collection("events").get().then((querySnapshot) => {
+                        var oEvents = querySnapshot.docs.map((doc) => {
+                              return doc.data()
+                        });
+                        var sortEvents = oEvents.sort(function (a, b) {
+                              return b.id - a.id
+                        })
+                        oModel.setProperty("/events", sortEvents)
                   });
-                  return sEvent
+
             },
 
             editMoney: async function (email1, email2, money, status) {
@@ -191,6 +175,42 @@ sap.ui.define([
                               money: oMoney2 + money
                         })
                   }
+            },
+            
+            uploadAvatarFB: async function (file) {
+                  var oModel = this.getView().getModel("Table");
+                  oModel.setProperty("/indicator", true)
+                  var oProgressIndicator = this.getView().byId("Progress")
+                  var oFile = file.files[0];
+                  await firebase.auth().onAuthStateChanged((user) => {
+                        if (user) {
+                              var storageRef = firebase.storage().ref();
+                              var uploadTask = storageRef.child('avatars/' + user.email).put(oFile);
+                              uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+                                    (snapshot) => {
+                                          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                                          oProgressIndicator.setDisplayValue(progress + '%');
+                                          oProgressIndicator.setPercentValue(+progress);
+                                          console.log('Upload is ' + progress + '% done');
+                                          if (progress === 100) {
+                                                storageRef.child('avatars/' + user.email).getDownloadURL().then((url) => {
+                                                      db.collection("users").doc(user.email).update({
+                                                            AvatarUrl: url
+                                                      })
+                                                      db.collection("users").doc(user.email).get().then((doc) => {
+                                                            var sGeneralUser = doc.data()
+                                                            oModel.setProperty("/generaluser", sGeneralUser)
+                                                            console.log("Обновляю")
+                                                            oModel.setProperty("/indicator", false)
+                                                      })
+                                                })
+                                          }
+                                          var progress = 0
+                                    })
+                        } else {
+                              this.oRouter.navTo("auth");
+                        }
+                  });
             }
       };
 });

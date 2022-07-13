@@ -3,8 +3,8 @@ sap.ui.define([
 	"sap/ui/Device",
 	"./model/models",
 	"sap/ui/model/json/JSONModel",
-	"./module/Firebase"
-], function(UIComponent, Device, models, JSONModel, Firebase) {
+
+], function(UIComponent, Device, models, JSONModel) {
 	"use strict";
 
 	return UIComponent.extend("sap.ui.demo.basicTemplate.Component", {

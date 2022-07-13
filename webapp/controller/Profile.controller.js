@@ -9,8 +9,11 @@ sap.ui.define([
 	return BaseController.extend("sap.ui.demo.basicTemplate.controller.Profile", {
 
 		onInit: function () {
+			var oModel = this.getModel("Table");
+			oModel.setProperty("/indicator", false);
 			this.oRouter = this.getOwnerComponent().getRouter();
-			this.getGeneralUser();
+			Firebase.getGeneralUser.call(this);
+			Firebase.getAllUsers.call(this);
 		},
 
 		cancelSetting: function () {
@@ -18,34 +21,18 @@ sap.ui.define([
 		},
 
 		saveSetting: function () {
-			this.getGeneralUser();
+			Firebase.getGeneralUser.call(this)
 			this.oRouter.navTo("home");
 		},
 
 		uploadAvatar: async function () {
-			this.showBusyIndicator();
 			var file = this.getView().getDomRef("-avatar");
 			if (file.files[0] === undefined) {
 				MessageToast.show("Вы не выбрали файл");
 			} else {
-					Firebase.uploadAvatarFB(file)
-					this.getGeneralUser();
-					this.hideBusyIndicator();
+					await Firebase.uploadAvatarFB.call(this, file);
+					await Firebase.getGeneralUser.call(this)
 			}
-
-		},
-
-		getGeneralUser: async function () {
-			var oModel = this.getModel("Table");
-			Firebase.checkAutorisation().onAuthStateChanged((user) => {
-				if (user) {
-					Firebase.getDocument("users", user.email).then((doc) => {
-						oModel.setProperty("/generaluser", doc.data())
-					})
-				} else {
-					this.oRouter.navTo("auth");
-				}
-			});
 		},
 
 		hideBusyIndicator: function () {
@@ -54,7 +41,6 @@ sap.ui.define([
 
 		showBusyIndicator: function (iDuration, iDelay) {
 			BusyIndicator.show(iDelay);
-
 			if (iDuration && iDuration > 0) {
 				if (this._sTimeoutId) {
 					clearTimeout(this._sTimeoutId);
