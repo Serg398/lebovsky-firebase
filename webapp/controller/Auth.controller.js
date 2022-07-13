@@ -23,7 +23,8 @@ sap.ui.define([
                 sEmail = oEmail.getValue(),
                 oPass = this.getView().byId("inputPass"),
                 sPass = oPass.getValue();
-                Firebase.login(sEmail, sPass).then((userCredential) => {
+            Firebase.login(sEmail, sPass).then((userCredential) => {
+                Firebase.getAllUsers.call(this)
                 this.oRouter.navTo("home");
             })
                 .catch((error) => {
