@@ -15,7 +15,7 @@ sap.ui.define([
 
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
-
+      
 
       return {
             
@@ -182,10 +182,12 @@ sap.ui.define([
                   oModel.setProperty("/indicator", true)
                   var oProgressIndicator = this.getView().byId("Progress")
                   var oFile = file.files[0];
+                  var progress = 0
                   await firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
                               var storageRef = firebase.storage().ref();
                               var uploadTask = storageRef.child('avatars/' + user.email).put(oFile);
+                              
                               uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
                                     (snapshot) => {
                                           var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -193,19 +195,20 @@ sap.ui.define([
                                           oProgressIndicator.setPercentValue(+progress);
                                           console.log('Upload is ' + progress + '% done');
                                           if (progress === 100) {
-                                                storageRef.child('avatars/' + user.email).getDownloadURL().then((url) => {
-                                                      db.collection("users").doc(user.email).update({
+                                                storageRef.child('avatars/' + user.email).getDownloadURL().then(async (url)  => {
+                                                      await db.collection("users").doc(user.email).update({
                                                             AvatarUrl: url
                                                       })
-                                                      db.collection("users").doc(user.email).get().then((doc) => {
+                                                      await db.collection("users").doc(user.email).get().then((doc) => {
                                                             var sGeneralUser = doc.data()
                                                             oModel.setProperty("/generaluser", sGeneralUser)
                                                             console.log("Обновляю")
                                                             oModel.setProperty("/indicator", false)
+                                                            
                                                       })
                                                 })
                                           }
-                                          var progress = 0
+                                          
                                     })
                         } else {
                               this.oRouter.navTo("auth");
