@@ -39,12 +39,12 @@
                                 </f:label>
                                 <f:fields>
                                     <Select
-                                        editable="false"
+                                        forceSelection="false"
                                         selectedKey="{Table>/new/email1}"
-                                        items="{Table>/generaluser}">
+                                        items="{Table>/users}">
                                         <core:Item
-                                            key="{Table>/generaluser/email}"
-                                            text="{Table>/generaluser/name} {Table>/generaluser/firstname}" />
+                                            key="{Table>email}"
+                                            text="{Table>name} {Table>firstname}" />
                                     </Select>
                                 </f:fields>
                             </f:FormElement>
