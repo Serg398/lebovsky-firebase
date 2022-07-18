@@ -119,7 +119,7 @@
 								press="pressEvent">
 								<HBox>
 									<HBox
-										width="70%"
+										width="20%"
 										alignItems="Center"
 										alignContent="Center">
 										<core:Icon
@@ -136,6 +136,11 @@
 										<Text
 											width="5rem"
 											text="{Table>DP}" />
+									</HBox>
+									<HBox
+										width="40%"
+										alignItems="Center"
+										alignContent="Center">
 										<VBox>
 											<HBox>
 												<Text
@@ -143,7 +148,6 @@
 													text="Кто: "
 													class="sapUiSmallMarginBegin colorText" />
 												<Text
-													width="28rem"
 													text="{Table>name1} {Table>firstname1}"
 													class="sapUiSmallMarginBegin colorText" />
 											</HBox>
@@ -153,12 +157,16 @@
 													text="Кому: "
 													class="sapUiSmallMarginBegin colorText" />
 												<Text
-													width="28rem"
 													text="{Table>name2} {Table>firstname2}"
 													class="sapUiSmallMarginBegin colorText" />
 											</HBox>
 										</VBox>
+									</HBox>
+									<HBox width="10%"
+										alignItems="Center"
+										alignContent="Center">
 										<Button
+											class="sapUiSizeCompact"
 											text="Подтвердить"
 											type="Accept"
 											press="statusOnEvent"
@@ -175,7 +183,7 @@
 											text="{= ${Table>status} === true ? 'Подтвержден' : 'Не подтвержден'}" />
 									</HBox>
 									<HBox
-										width="30%"
+										width="20%"
 										alignItems="Center"
 										alignContent="Center">
 										<Text
