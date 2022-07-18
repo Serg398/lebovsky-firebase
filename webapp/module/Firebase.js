@@ -109,6 +109,7 @@ sap.ui.define([
                   })
                   let oNewEvent = {
                         "type": "event",
+                        "status": sEmail2,
                         "author": sEmail1,
                         "DP": dataDocument.DP,
                         "id": oID + 1,
