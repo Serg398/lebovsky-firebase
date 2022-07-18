@@ -70,6 +70,7 @@ sap.ui.define([
 
 		deleteEvent: async function (oEvent) {
 			var oModel = this.getModel("Table");
+			var generalUser = oModel.getProperty("/generaluser")
 			var oContext = oEvent.getSource().getBindingContext("Table").sPath;
 			var oItem = oModel.getProperty(oContext);
 			if (oItem.author != generalUser.email) {
@@ -160,7 +161,7 @@ sap.ui.define([
 
 		pressEvent: function (oEvent) {
 			var oModel = this.getModel("Table");
-			var generalUser = oModel.getProperty("/generaluser")
+			var generalUser = oModel.getProperty("/generaluser");
 			var oContext = oEvent.getSource().getBindingContext("Table").sPath;
 			var oItem = oModel.getProperty(oContext);
 			if (oItem.author != generalUser.email) {
