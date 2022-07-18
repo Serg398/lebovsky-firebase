@@ -143,7 +143,7 @@
 													text="Кто: "
 													class="sapUiSmallMarginBegin colorText" />
 												<Text
-													width="15rem"
+													width="30rem"
 													text="{Table>name1} {Table>firstname1}"
 													class="sapUiSmallMarginBegin colorText" />
 											</HBox>
@@ -153,18 +153,21 @@
 													text="Кому: "
 													class="sapUiSmallMarginBegin colorText" />
 												<Text
-													width="15rem"
+													width="30rem"
 													text="{Table>name2} {Table>firstname2}"
 													class="sapUiSmallMarginBegin colorText" />
 											</HBox>
 										</VBox>
-										<Button text="Подтвердить" press="statusOnEvent" visible="{= ${Table>status} === ${Table>/generaluser/email}}"/>
+										<Button
+											text="Подтвердить"
+											type="Accept"
+											press="statusOnEvent"
+											visible="{= ${Table>status} === ${Table>/generaluser/email}}" />
 									</HBox>
 									<HBox
 										width="30%"
 										alignItems="Center"
 										alignContent="Center">
-										
 										<Text
 											width="7.5rem"
 											text="Размер суммы: "
@@ -185,7 +188,7 @@
 											width="50px"
 											src="sap-icon://delete"
 											size="25px" />
-											
+
 									</HBox>
 								</HBox>
 							</CustomListItem>
