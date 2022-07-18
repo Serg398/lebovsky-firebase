@@ -99,6 +99,13 @@ sap.ui.define([
 			}
 		},
 
+		statusOnEvent: function(oEvent) {
+			var oModel = this.getModel("Table");
+			var oContext = oEvent.getSource().getBindingContext("Table").sPath;
+			var oItem = oModel.getProperty(oContext);
+			debugger
+		},
+
 		hideBusyIndicator: function () {
 			BusyIndicator.hide();
 		},

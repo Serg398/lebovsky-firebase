@@ -122,10 +122,23 @@ sap.ui.define([
                         "firstname2": oUser2.firstname,
                         "email2": sEmail2
                   }
-                  await this.editMoney(sEmail1, sEmail2, oMoney, "new")
+                  
                   await db.collection("events").doc().set(oNewEvent);
                   await db.collection("ID").doc("ID").update({
                         id: oID + 1
+                  })
+            },
+
+            onEvent: async function(dataDocument) {
+                  let oMoney = dataDocument.money
+                  let sEmail1 = dataDocument.email1
+                  let sEmail2 = dataDocument.email2
+                  let oID = dataDocument.id
+                  await this.editMoney(sEmail1, sEmail2, oMoney, "new")
+                  let oEvents = await db.collection("events").where("id", "==", oID).get().then()
+                  let sID = await oEvents.docs[0].id
+                  await db.collection("events").doc(sID).update({
+                        status: true
                   })
             },
 

@@ -119,7 +119,7 @@
 								press="pressEvent">
 								<HBox>
 									<HBox
-										width="60%"
+										width="70%"
 										alignItems="Center"
 										alignContent="Center">
 										<core:Icon
@@ -158,12 +158,13 @@
 													class="sapUiSmallMarginBegin colorText" />
 											</HBox>
 										</VBox>
+										<Button text="Подтвердить" press="statusOnEvent" visible="{= ${Table>email2} === ${Table>/generaluser/email}}"/>
 									</HBox>
 									<HBox
 										width="30%"
 										alignItems="Center"
 										alignContent="Center">
-										<Button text="Подтвердить"/>
+										
 										<Text
 											width="7.5rem"
 											text="Размер суммы: "
@@ -184,6 +185,7 @@
 											width="50px"
 											src="sap-icon://delete"
 											size="25px" />
+											
 									</HBox>
 								</HBox>
 							</CustomListItem>
