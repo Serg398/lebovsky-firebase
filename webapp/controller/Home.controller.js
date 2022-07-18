@@ -104,7 +104,6 @@ sap.ui.define([
 			var oContext = oEvent.getSource().getBindingContext("Table").sPath;
 			var oItem = oModel.getProperty(oContext);
 			Firebase.onEvent(oItem)
-			debugger
 		},
 
 		hideBusyIndicator: function () {
