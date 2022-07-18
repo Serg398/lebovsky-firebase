@@ -158,7 +158,7 @@
 													class="sapUiSmallMarginBegin colorText" />
 											</HBox>
 										</VBox>
-										<Button text="Подтвердить" press="statusOnEvent" visible="{= ${Table>email2} === ${Table>/generaluser/email}}"/>
+										<Button text="Подтвердить" press="statusOnEvent" visible="{= ${Table>status} === ${Table>/generaluser/email}}"/>
 									</HBox>
 									<HBox
 										width="30%"

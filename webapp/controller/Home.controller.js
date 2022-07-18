@@ -103,6 +103,7 @@ sap.ui.define([
 			var oModel = this.getModel("Table");
 			var oContext = oEvent.getSource().getBindingContext("Table").sPath;
 			var oItem = oModel.getProperty(oContext);
+			Firebase.onEvent(oItem)
 			debugger
 		},
 
