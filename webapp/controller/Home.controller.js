@@ -31,7 +31,7 @@ sap.ui.define([
 					oNewItem.money === undefined ||
 					oNewItem.email1 === undefined ||
 					oNewItem.email2 === undefined) {
-					MessageToast.show("Заполните все поля");
+					MessageToast.show("Заполните все обязательные поля");
 				} else {
 					await Firebase.addNewEvent(oNewItem)
 					await Firebase.getGeneralUser.call(this)
@@ -42,7 +42,6 @@ sap.ui.define([
 						oDialog.destroy();
 						this.pDialog = null;
 					}.bind(this))
-
 				};
 			} else {
 				var oModel = this.getModel("Table");
@@ -72,19 +71,31 @@ sap.ui.define([
 		deleteEvent: async function (oEvent) {
 			var oModel = this.getModel("Table");
 			var oContext = oEvent.getSource().getBindingContext("Table").sPath;
-			MessageBox.warning("Вы действительно хотите удалить транзакцию?", {
-				actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
-				emphasizedAction: MessageBox.Action.OK,
-				onClose: async function (sAction) {
-					if (sAction === "OK") {
-						this.showBusyIndicator()
-						var oDelItem = oModel.getProperty(oContext);
-						await Firebase.deleteEvent(oDelItem.id)
-						this.hideBusyIndicator()
-					}
-				}.bind(this)
-			});
-
+			var oItem = oModel.getProperty(oContext);
+			if (oItem.author != generalUser.email) {
+				MessageBox.warning("Вы не можете удалить транзакцию, т.к. вы не автор.", {
+					actions: [MessageBox.Action.OK],
+					emphasizedAction: MessageBox.Action.OK,
+					onClose: async function (sAction) {
+						if (sAction === "OK") {
+							
+						}
+					}.bind(this)
+				});
+			} else {
+				MessageBox.warning("Вы действительно хотите удалить транзакцию?", {
+					actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+					emphasizedAction: MessageBox.Action.OK,
+					onClose: async function (sAction) {
+						if (sAction === "OK") {
+							this.showBusyIndicator()
+							var oDelItem = oModel.getProperty(oContext);
+							await Firebase.deleteEvent(oDelItem.id)
+							this.hideBusyIndicator()
+						}
+					}.bind(this)
+				});
+			}
 		},
 
 		hideBusyIndicator: function () {
@@ -149,19 +160,32 @@ sap.ui.define([
 
 		pressEvent: function (oEvent) {
 			var oModel = this.getModel("Table");
+			var generalUser = oModel.getProperty("/generaluser")
 			var oContext = oEvent.getSource().getBindingContext("Table").sPath;
 			var oItem = oModel.getProperty(oContext);
-			var oClone = {};
-			Object.assign(oClone, oItem);
-			oModel.setProperty("/tempitem", oClone);
-			oModel.setProperty("/new", oItem);
-			this.openFragment();
+			if (oItem.author != generalUser.email) {
+				MessageBox.warning("Вы не можете изменить транзакцию, т.к. вы не автор.", {
+					actions: [MessageBox.Action.OK],
+					emphasizedAction: MessageBox.Action.OK,
+					onClose: async function (sAction) {
+						if (sAction === "OK") {
+							
+						}
+					}.bind(this)
+				});
+			} else {
+				var oClone = {};
+				Object.assign(oClone, oItem);
+				oModel.setProperty("/tempitem", oClone);
+				oModel.setProperty("/new", oItem);
+				this.openFragment();
+			}
+			
 		},
 
 		logout: function () {
-			Firebase.logOut().then(() => {
-				this.oRouter.navTo("auth");
-		  })
+			Firebase.logOut.call(this)
+			
 		},
 
 		handleNav: function (evt) {

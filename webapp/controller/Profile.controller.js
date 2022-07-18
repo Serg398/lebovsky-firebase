@@ -51,6 +51,6 @@ sap.ui.define([
 					this.hideBusyIndicator();
 				}.bind(this), iDuration);
 			}
-		},
+		}
 	});
 });

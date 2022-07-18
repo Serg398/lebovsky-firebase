@@ -9,8 +9,6 @@ sap.ui.define([
     return BaseController.extend("sap.ui.demo.basicTemplate.controller.Auth", {
 
         onInit: function () {
-            var oModel = this.getModel("Table");
-            oModel.setProperty("/auth", {})
             this.oRouter = this.getOwnerComponent().getRouter();
         },
 
@@ -31,5 +29,9 @@ sap.ui.define([
                     MessageToast.show("Не верный логин или пароль")
                 });
         },
+
+        googleLogin: function () {
+            Firebase.googleLogin()
+        }
     });
 });

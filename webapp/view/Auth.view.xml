@@ -22,7 +22,6 @@
                     class="sapUiSmallMarginBottom" />
                 <Input
                     id="inputPass"
-                    value="{Table>/auth/pass}"
                     type="Password"
                     placeholder="Пароль"
                     class="sapUiSmallMarginBottom" />
@@ -41,6 +40,7 @@
                         press="pressRouteRegistrate" />
                 </HBox>
             </VBox>
+            <Image src="https://img2.freepng.ru/20180506/ttw/kisspng-google-logo-g-suite-mobile-phones-11-5aeeeca85742d5.6453114615256075923574.jpg" width="40px"  press="googleLogin"/>
         </HBox>
     </Page>
 </mvc:View>

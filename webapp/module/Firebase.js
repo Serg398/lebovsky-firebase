@@ -1,7 +1,8 @@
 sap.ui.define([
       '../controller/BaseController',
       "sap/ui/model/json/JSONModel",
-], function (BaseController, JSONModel) {
+      'sap/m/MessageToast',
+], function (BaseController, JSONModel, MessageToast) {
       "use strict";
 
       const firebaseConfig = {
@@ -46,12 +47,21 @@ sap.ui.define([
             },
 
             logOut: function () {
-                  return firebase.auth().signOut()
+                  var oModel = this.getModel("Table");
+                  firebase.auth().signOut().then(() => {
+                        this.oRouter.navTo("auth");
+                        oModel.setProperty("/generaluser", [])
+                        oModel.setProperty("/events", [])
+                        oModel.setProperty("/users", [])
+                      }).catch((error) => {
+                        // An error happened.
+                      });
             },
 
             addNewUser: function (email, oFormRegister) {
                   var userForm = {
                         "type": "user",
+                        "AvatarUrl": "",
                         "name": oFormRegister.name,
                         "firstname": oFormRegister.firstname,
                         "email": email,
@@ -72,17 +82,11 @@ sap.ui.define([
                                           });
                                           oModel.setProperty("/generaluser", generalusers[0])
                                     });
-
-
-                              // db.collection("users").doc(user.email).onSnapshot((doc) => {
-                              //       oModel.setProperty("/generaluser", doc.data())
-                              // });
                         } else {
                               this.oRouter.navTo("auth");
                         }
                   });
             },
-
 
             //Events
             getID: function () {
@@ -105,6 +109,7 @@ sap.ui.define([
                   })
                   let oNewEvent = {
                         "type": "event",
+                        "author": sEmail1,
                         "DP": dataDocument.DP,
                         "id": oID + 1,
                         "money": dataDocument.money,
@@ -191,10 +196,10 @@ sap.ui.define([
 
             uploadAvatarFB: async function (file) {
                   var oModel = this.getView().getModel("Table");
-                  oModel.setProperty("/indicator", true)
-                  var oProgressIndicator = this.getView().byId("Progress")
+                  oModel.setProperty("/indicator", true);
+                  var oProgressIndicator = this.getView().byId("Progress");
                   var oFile = file.files[0];
-                  var progress = 0
+                  var progress = 0;
                   await firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
                               var storageRef = firebase.storage().ref();
@@ -210,9 +215,9 @@ sap.ui.define([
                                                             AvatarUrl: url
                                                       })
                                                       await db.collection("users").doc(user.email).get().then((doc) => {
-                                                            var sGeneralUser = doc.data()
-                                                            oModel.setProperty("/generaluser", sGeneralUser)
-                                                            oModel.setProperty("/indicator", false)
+                                                            var sGeneralUser = doc.data();
+                                                            oModel.setProperty("/generaluser", sGeneralUser);
+                                                            oModel.setProperty("/indicator", false);
 
                                                       })
                                                 })

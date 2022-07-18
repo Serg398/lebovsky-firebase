@@ -119,14 +119,14 @@
 								press="pressEvent">
 								<HBox>
 									<HBox
-										width="75%"
+										width="70%"
 										alignItems="Center"
 										alignContent="Center">
 										<core:Icon
 											visible="{= !${device>/system/phone} }"
 											class="imgCahsItem"
 											color="#1C4C98"
-											width="70px"
+											width="3%"
 											src="sap-icon://credit-card"
 											size="50px" />
 										<Text
@@ -134,7 +134,6 @@
 											width="5rem"
 											text="Чек № {Table>id}" />
 										<Text
-											class="dp colorText"
 											width="5rem"
 											text="{Table>DP}" />
 										<VBox>
