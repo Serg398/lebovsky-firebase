@@ -163,6 +163,11 @@
 											type="Accept"
 											press="statusOnEvent"
 											visible="{= ${Table>status} === ${Table>/generaluser/email}}" />
+										<core:Icon
+											color="{= ${Table>status} === true ? '#00AA00' : '#CCAA00'}"
+											width="20px"
+											src="{= ${Table>status} === true ? 'sap-icon://accept' : 'sap-icon://alert'}"
+											size="15px" />
 										<Text
 											visible="{= ${Table>status} !== ${Table>/generaluser/email}}"
 											text="{= ${Table>status} === true ? 'Подтвержден' : 'Не подтвержден'}" />
