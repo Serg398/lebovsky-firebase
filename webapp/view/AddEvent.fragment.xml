@@ -43,8 +43,8 @@
                                         selectedKey="{Table>/new/email1}"
                                         items="{Table>/generaluser}">
                                         <core:Item
-                                        key="{Table>/generaluser/email}"
-                                        text="{Table>/generaluser/name} {Table>/generaluser/firstname}" />
+                                            key="{Table>/generaluser/email}"
+                                            text="{Table>/generaluser/name} {Table>/generaluser/firstname}" />
                                     </Select>
                                 </f:fields>
                             </f:FormElement>
@@ -56,6 +56,7 @@
                                 </f:label>
                                 <f:fields>
                                     <Select
+                                        editable="{= !${Table>/new/id}}"
                                         forceSelection="false"
                                         selectedKey="{Table>/new/email2}"
                                         items="{Table>/users}">

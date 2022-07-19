@@ -17,9 +17,7 @@ sap.ui.define([
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
 
-
       return {
-
             //Documents
             getDocument: function (oCollection, oDocument) {
                   return db.collection(oCollection).doc(oDocument).get()
@@ -53,9 +51,9 @@ sap.ui.define([
                         oModel.setProperty("/generaluser", [])
                         oModel.setProperty("/events", [])
                         oModel.setProperty("/users", [])
-                      }).catch((error) => {
+                  }).catch((error) => {
                         // An error happened.
-                      });
+                  });
             },
 
             addNewUser: function (email, oFormRegister) {
@@ -122,24 +120,23 @@ sap.ui.define([
                         "firstname2": oUser2.firstname,
                         "email2": sEmail2
                   }
-                  
                   await db.collection("events").doc().set(oNewEvent);
                   await db.collection("ID").doc("ID").update({
                         id: oID + 1
                   })
             },
 
-            onEvent: async function(dataDocument) {
+            onEvent: async function (dataDocument) {
                   let oMoney = dataDocument.money
                   let sEmail1 = dataDocument.email1
                   let sEmail2 = dataDocument.email2
                   let oID = dataDocument.id
-                  await this.editMoney(sEmail1, sEmail2, oMoney, "new")
                   let oEvents = await db.collection("events").where("id", "==", oID).get().then()
                   let sID = await oEvents.docs[0].id
                   await db.collection("events").doc(sID).update({
                         status: true
                   })
+                  await this.editMoney(sEmail1, sEmail2, oMoney, "new")
             },
 
             editEvent: async function (dataDocument) {
@@ -148,13 +145,22 @@ sap.ui.define([
                   let oOldMoney = dataDocument.oldmoney
                   let sEmail1 = dataDocument.email1
                   let sEmail2 = dataDocument.email2
-                  await this.editMoney(sEmail1, sEmail2, oOldMoney, "del")
-                  await this.editMoney(sEmail1, sEmail2, oMoney, "new")
-                  let oEvents = await db.collection("events").where("id", "==", oID).get().then()
-                  let sID = await oEvents.docs[0].id
-                  dataDocument.money = oMoney
-                  await db.collection("events").doc(sID).update(dataDocument)
-                  console.log(dataDocument)
+                  if (oMoney === oOldMoney) {
+                        let oEvents = await db.collection("events").where("id", "==", oID).get().then()
+                        let sID = await oEvents.docs[0].id
+                        dataDocument.money = oMoney
+                        await db.collection("events").doc(sID).update(dataDocument)
+                        console.log(dataDocument)
+                  } else {
+                        await this.editMoney(sEmail1, sEmail2, oOldMoney, "del")
+                        await this.editMoney(sEmail1, sEmail2, oMoney, "new")
+                        let oEvents = await db.collection("events").where("id", "==", oID).get().then()
+                        let sID = await oEvents.docs[0].id
+                        dataDocument.money = oMoney
+                        await db.collection("events").doc(sID).update(dataDocument)
+                        console.log(dataDocument)
+                  }
+                  
             },
 
             deleteEvent: async function (oID) {
@@ -232,7 +238,6 @@ sap.ui.define([
                                                             var sGeneralUser = doc.data();
                                                             oModel.setProperty("/generaluser", sGeneralUser);
                                                             oModel.setProperty("/indicator", false);
-
                                                       })
                                                 })
                                           }
