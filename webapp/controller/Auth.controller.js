@@ -22,7 +22,9 @@ sap.ui.define([
                 oPass = this.getView().byId("inputPass"),
                 sPass = oPass.getValue();
             Firebase.login(sEmail, sPass).then((userCredential) => {
-                Firebase.getAllUsers.call(this)
+                Firebase.getGeneralUser.call(this);
+                Firebase.getAllUsers.call(this);
+                Firebase.getEvents.call(this);
                 this.oRouter.navTo("home");
             })
                 .catch((error) => {
@@ -31,7 +33,7 @@ sap.ui.define([
         },
 
         googleLogin: function () {
-            Firebase.googleLogin()
+            Firebase.googleLogin();
         }
     });
 });

@@ -31,7 +31,7 @@ sap.ui.define([
                               querySnapshot.forEach((doc) => {
                                     users.push(doc.data());
                               });
-                              oModel.setProperty("/users", users)
+                              oModel.setProperty("/users", users);
                         });
             },
 
@@ -48,9 +48,9 @@ sap.ui.define([
                   var oModel = this.getModel("Table");
                   firebase.auth().signOut().then(() => {
                         this.oRouter.navTo("auth");
-                        oModel.setProperty("/generaluser", [])
-                        oModel.setProperty("/events", [])
-                        oModel.setProperty("/users", [])
+                        oModel.setProperty("/generaluser", []);
+                        oModel.setProperty("/events", []);
+                        oModel.setProperty("/users", []);
                   }).catch((error) => {
                         // An error happened.
                   });
@@ -72,8 +72,9 @@ sap.ui.define([
                   var oModel = this.getModel("Table");
                   firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
-                              db.collection("users").where("email", "==", user.email)
-                                    .onSnapshot((querySnapshot) => {
+                              db.collection("users")
+                              .where("email", "==", user.email)
+                              .onSnapshot((querySnapshot) => {
                                           var generalusers = [];
                                           querySnapshot.forEach((doc) => {
                                                 generalusers.push(doc.data());
@@ -89,16 +90,16 @@ sap.ui.define([
             //Events
             getID: function () {
                   let oID = db.collection("ID").doc("ID").get().then((doc) => {
-                        return doc.data().id
+                        return doc.data().id;
                   })
                   return oID
             },
 
             addNewEvent: async function (dataDocument) {
-                  let oID = await this.getID().then()
-                  let oMoney = dataDocument.money
-                  let sEmail1 = dataDocument.email1
-                  let sEmail2 = dataDocument.email2
+                  let oID = await this.getID().then();
+                  let oMoney = dataDocument.money;
+                  let sEmail1 = dataDocument.email1;
+                  let sEmail2 = dataDocument.email2;
                   let oUser1 = await db.collection("users").doc(sEmail1).get().then((doc) => {
                         return doc.data()
                   })
@@ -127,49 +128,48 @@ sap.ui.define([
             },
 
             onEvent: async function (dataDocument) {
-                  let oMoney = dataDocument.money
-                  let sEmail1 = dataDocument.email1
-                  let sEmail2 = dataDocument.email2
-                  let oID = dataDocument.id
-                  let oEvents = await db.collection("events").where("id", "==", oID).get().then()
-                  let sID = await oEvents.docs[0].id
+                  let oMoney = dataDocument.money;
+                  let sEmail1 = dataDocument.email1;
+                  let sEmail2 = dataDocument.email2;
+                  let oID = dataDocument.id;
+                  let oEvents = await db.collection("events").where("id", "==", oID).get().then();
+                  let sID = await oEvents.docs[0].id;
                   await db.collection("events").doc(sID).update({
                         status: true
                   })
-                  await this.editMoney(sEmail1, sEmail2, oMoney, "new")
+                  await this.editMoney(sEmail1, sEmail2, oMoney, "new");
             },
 
             editEvent: async function (dataDocument) {
-                  let oID = dataDocument.id
-                  let oMoney = dataDocument.money
-                  let oOldMoney = dataDocument.oldmoney
-                  let sEmail1 = dataDocument.email1
-                  let sEmail2 = dataDocument.email2
+                  let oID = dataDocument.id;
+                  let oMoney = dataDocument.money;
+                  let oOldMoney = dataDocument.oldmoney;
+                  let sEmail1 = dataDocument.email1;
+                  let sEmail2 = dataDocument.email2;
                   if (oMoney === oOldMoney) {
-                        let oEvents = await db.collection("events").where("id", "==", oID).get().then()
-                        let sID = await oEvents.docs[0].id
-                        dataDocument.money = oMoney
-                        await db.collection("events").doc(sID).update(dataDocument)
-                        console.log(dataDocument)
+                        let oEvents = await db.collection("events").where("id", "==", oID).get().then();
+                        let sID = await oEvents.docs[0].id;
+                        dataDocument.money = oMoney;
+                        await db.collection("events").doc(sID).update(dataDocument);
+                        console.log(dataDocument);
                   } else {
-                        await this.editMoney(sEmail1, sEmail2, oOldMoney, "del")
-                        await this.editMoney(sEmail1, sEmail2, oMoney, "new")
-                        let oEvents = await db.collection("events").where("id", "==", oID).get().then()
-                        let sID = await oEvents.docs[0].id
-                        dataDocument.money = oMoney
-                        await db.collection("events").doc(sID).update(dataDocument)
-                        console.log(dataDocument)
+                        await this.editMoney(sEmail1, sEmail2, oOldMoney, "del");
+                        await this.editMoney(sEmail1, sEmail2, oMoney, "new");
+                        let oEvents = await db.collection("events").where("id", "==", oID).get().then();
+                        let sID = await oEvents.docs[0].id;
+                        dataDocument.money = oMoney;
+                        await db.collection("events").doc(sID).update(dataDocument);
+                        console.log(dataDocument);
                   }
-                  
             },
 
             deleteEvent: async function (oID) {
-                  let oEvents = await db.collection("events").where("id", "==", oID).get().then()
-                  let sID = await oEvents.docs[0].id
-                  let oMoney = oEvents.docs[0].data().money
-                  let sEmail1 = oEvents.docs[0].data().email1
-                  let sEmail2 = oEvents.docs[0].data().email2
-                  await this.editMoney(sEmail1, sEmail2, oMoney, "del")
+                  let oEvents = await db.collection("events").where("id", "==", oID).get().then();
+                  let sID = await oEvents.docs[0].id;
+                  let oMoney = oEvents.docs[0].data().money;
+                  let sEmail1 = oEvents.docs[0].data().email1;
+                  let sEmail2 = oEvents.docs[0].data().email2;
+                  await this.editMoney(sEmail1, sEmail2, oMoney, "del");
                   let oDelete = await db.collection("events").doc(sID).delete();
                   return oDelete
             },
@@ -185,7 +185,7 @@ sap.ui.define([
                               var sortEvents = cities.sort(function (a, b) {
                                     return b.id - a.id
                               })
-                              oModel.setProperty("/events", sortEvents)
+                              oModel.setProperty("/events", sortEvents);
                         });
             },
 
@@ -219,7 +219,6 @@ sap.ui.define([
                   oModel.setProperty("/indicator", true);
                   var oProgressIndicator = this.getView().byId("Progress");
                   var oFile = file.files[0];
-                  var progress = 0;
                   await firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
                               var storageRef = firebase.storage().ref();
@@ -241,7 +240,6 @@ sap.ui.define([
                                                       })
                                                 })
                                           }
-
                                     })
                         } else {
                               this.oRouter.navTo("auth");

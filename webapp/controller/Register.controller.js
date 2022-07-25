@@ -9,21 +9,21 @@ sap.ui.define([
 
 		onInit: function () {
 			var oModel = this.getModel("Table");
-			oModel.setProperty("/register", {})
+			oModel.setProperty("/register", {});
 			this.oRouter = this.getOwnerComponent().getRouter();
 		},
 
 		addUser: function () {
 			var oModel = this.getModel("Table");
-			var oFormRegister = oModel.getProperty("/register")
+			var oFormRegister = oModel.getProperty("/register");
 			Firebase.register(oFormRegister.email, oFormRegister.pass).then((userCredential) => {
-				var email = userCredential.user.email
+				var email = userCredential.user.email;
 				if (email != ""){
-					Firebase.addNewUser(email, oFormRegister)
+					Firebase.addNewUser(email, oFormRegister);
 					this.oRouter.navTo("auth");
 				}
 			}).catch((error) => {
-				MessageToast.show(error.message)
+				MessageToast.show(error.message);
 				});
 		}
 	});

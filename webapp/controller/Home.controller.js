@@ -16,13 +16,13 @@ sap.ui.define([
 			var oModel = this.getModel("Table");
 			oModel.setProperty("/new", {});
 			this.oRouter = this.getOwnerComponent().getRouter();
-			Firebase.getGeneralUser.call(this)
-			Firebase.getAllUsers.call(this)
-			Firebase.getEvents.call(this)
+			Firebase.getGeneralUser.call(this);
+			Firebase.getAllUsers.call(this);
+			Firebase.getEvents.call(this);
 		},
 
 		addEvent: async function () {
-			this.showBusyIndicator()
+			this.showBusyIndicator();
 			var oModel = this.getModel("Table");
 			var oNewItem = oModel.getProperty("/new");
 			var oTempItem = oModel.getProperty("/tempitem");
@@ -33,8 +33,8 @@ sap.ui.define([
 					oNewItem.email2 === undefined) {
 					MessageToast.show("Заполните все обязательные поля");
 				} else {
-					await Firebase.addNewEvent(oNewItem)
-					await Firebase.getGeneralUser.call(this)
+					await Firebase.addNewEvent(oNewItem);
+					await Firebase.getGeneralUser.call(this);
 					oModel.setProperty("/new", {});
 					oModel.setProperty("/tempitem", {});
 					this.pDialog.then(function (oDialog) {
@@ -51,9 +51,9 @@ sap.ui.define([
 					oTempItem.name1 &&
 					oNewItem.name2 ===
 					oTempItem.name2) {
-					oNewItem.oldmoney = oTempItem.money
-					await Firebase.editEvent(oNewItem)
-					await Firebase.getGeneralUser.call(this)
+					oNewItem.oldmoney = oTempItem.money;
+					await Firebase.editEvent(oNewItem);
+					await Firebase.getGeneralUser.call(this);
 					oModel.setProperty("/new", {});
 					oModel.setProperty("/tempitem", {});
 					this.pDialog.then(function (oDialog) {
@@ -70,7 +70,7 @@ sap.ui.define([
 
 		deleteEvent: async function (oEvent) {
 			var oModel = this.getModel("Table");
-			var generalUser = oModel.getProperty("/generaluser")
+			var generalUser = oModel.getProperty("/generaluser");
 			var oContext = oEvent.getSource().getBindingContext("Table").sPath;
 			var oItem = oModel.getProperty(oContext);
 			if (oItem.author != generalUser.email) {
@@ -91,8 +91,8 @@ sap.ui.define([
 						if (sAction === "OK") {
 							this.showBusyIndicator()
 							var oDelItem = oModel.getProperty(oContext);
-							await Firebase.deleteEvent(oDelItem.id)
-							this.hideBusyIndicator()
+							await Firebase.deleteEvent(oDelItem.id);
+							this.hideBusyIndicator();
 						}
 					}.bind(this)
 				});
@@ -103,7 +103,7 @@ sap.ui.define([
 			var oModel = this.getModel("Table");
 			var oContext = oEvent.getSource().getBindingContext("Table").sPath;
 			var oItem = oModel.getProperty(oContext);
-			Firebase.onEvent(oItem)
+			Firebase.onEvent(oItem);
 		},
 
 		hideBusyIndicator: function () {
@@ -192,7 +192,7 @@ sap.ui.define([
 		},
 
 		logout: function () {
-			Firebase.logOut.call(this)
+			Firebase.logOut.call(this);
 			
 		},
 

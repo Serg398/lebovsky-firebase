@@ -31,7 +31,7 @@ sap.ui.define([
 				MessageToast.show("Вы не выбрали файл");
 			} else {
 					await Firebase.uploadAvatarFB.call(this, file);
-					await Firebase.getGeneralUser.call(this)
+					await Firebase.getGeneralUser.call(this);
 			}
 		},
 
