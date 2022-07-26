@@ -16,11 +16,31 @@ sap.ui.define([
 
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
+      var provider = new firebase.auth.GoogleAuthProvider();
 
       return {
-            //Documents
-            getDocument: function (oCollection, oDocument) {
-                  return db.collection(oCollection).doc(oDocument).get()
+
+            google: function () {
+                  firebase.auth().signInWithPopup(provider).then((result) => {
+                        /** @type {firebase.auth.OAuthCredential} */
+                        var user = result.user;
+                        console.log(user)
+                        var userForm = {
+                              "type": "user",
+                              "AvatarUrl": "",
+                              "username": user.displayName,
+                              "email": user.email,
+                              "money": 0
+                        }
+                        db.collection("users").doc(user.email).get().then((doc) => {
+                              if (doc.exists) {
+                                    this.oRouter.navTo("home");
+                              } else {
+                                    db.collection("users").doc(user.email).set(userForm);
+                                    this.oRouter.navTo("home");
+                              }
+                        })
+                  })
             },
 
             getAllUsers: function () {
@@ -47,10 +67,10 @@ sap.ui.define([
             logOut: function () {
                   var oModel = this.getModel("Table");
                   firebase.auth().signOut().then(() => {
-                        this.oRouter.navTo("auth");
                         oModel.setProperty("/generaluser", []);
                         oModel.setProperty("/events", []);
                         oModel.setProperty("/users", []);
+                        this.oRouter.navTo("auth");
                   }).catch((error) => {
                         // An error happened.
                   });
@@ -60,8 +80,7 @@ sap.ui.define([
                   var userForm = {
                         "type": "user",
                         "AvatarUrl": "",
-                        "name": oFormRegister.name,
-                        "firstname": oFormRegister.firstname,
+                        "username": oFormRegister.name + ' ' + oFormRegister.firstname,
                         "email": email,
                         "money": 0
                   }
@@ -73,8 +92,8 @@ sap.ui.define([
                   firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
                               db.collection("users")
-                              .where("email", "==", user.email)
-                              .onSnapshot((querySnapshot) => {
+                                    .where("email", "==", user.email)
+                                    .onSnapshot((querySnapshot) => {
                                           var generalusers = [];
                                           querySnapshot.forEach((doc) => {
                                                 generalusers.push(doc.data());
@@ -114,11 +133,9 @@ sap.ui.define([
                         "id": oID + 1,
                         "money": dataDocument.money,
                         "comment": "",
-                        "name1": oUser1.name,
-                        "firstname1": oUser1.firstname,
+                        "username1": oUser1.username,
                         "email1": sEmail1,
-                        "name2": oUser2.name,
-                        "firstname2": oUser2.firstname,
+                        "username2": oUser2.username,
                         "email2": sEmail2
                   }
                   await db.collection("events").doc().set(oNewEvent);
