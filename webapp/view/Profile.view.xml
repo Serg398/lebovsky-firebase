@@ -109,12 +109,7 @@
                                         <f:formElements>
                                             <f:FormElement label="Имя">
                                                 <f:fields>
-                                                    <Text text="{Table>/generaluser/name}" />
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement label="Фамилмя">
-                                                <f:fields>
-                                                    <Text text="{Table>/generaluser/firstname}" />
+                                                    <Text text="{Table>/generaluser/username}" />
                                                 </f:fields>
                                             </f:FormElement>
                                             <f:FormElement label="Email">

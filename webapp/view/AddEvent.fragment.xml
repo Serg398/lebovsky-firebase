@@ -44,7 +44,7 @@
                                         items="{Table>/generaluser}">
                                         <core:Item
                                             key="{Table>/generaluser/email}"
-                                            text="{Table>/generaluser/name} {Table>/generaluser/firstname}" />
+                                            text="{Table>/generaluser/username}" />
                                     </Select>
                                 </f:fields>
                             </f:FormElement>
@@ -62,7 +62,7 @@
                                         items="{Table>/users}">
                                         <core:Item
                                             key="{Table>email}"
-                                            text="{Table>name} {Table>firstname}" />
+                                            text="{Table>username}" />
                                     </Select>
                                 </f:fields>
                             </f:FormElement>

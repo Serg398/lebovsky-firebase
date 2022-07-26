@@ -27,13 +27,17 @@ sap.ui.define([
                 Firebase.getEvents.call(this);
                 this.oRouter.navTo("home");
             })
-                .catch((error) => {
+                .catch(() => {
                     MessageToast.show("Не верный логин или пароль")
                 });
         },
 
         googleLogin: function () {
-            Firebase.googleLogin();
+
+            Firebase.google.call(this);
+            Firebase.getGeneralUser.call(this);
+            Firebase.getAllUsers.call(this);
+            Firebase.getEvents.call(this);
         }
     });
 });

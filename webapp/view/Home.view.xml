@@ -16,15 +16,9 @@
 			<tnt:header>
 				<tnt:ToolHeader>
 					<Image
-						height="2.5rem"
-						src="https://cdn.icon-icons.com/icons2/1091/PNG/512/profits_78367.png" />
-					<Title
-						level="H1"
-						text="Castula">
-						<layoutData>
-							<OverflowToolbarLayoutData shrinkable="true" />
-						</layoutData>
-					</Title>
+						src='https://firebasestorage.googleapis.com/v0/b/lebovsky-f6643.appspot.com/o/logo%2Fimage%20(17).png?alt=media&amp;token=df1897cd-9088-48e0-ab97-c0f974d83fb3'
+						width="140px" />
+					
 					<Title
 						level="H3"
 						titleStyle="H6"
@@ -47,7 +41,7 @@
 						backgroundColor="Transparent"></Avatar>
 					<Link
 						id="button"
-						text="{Table>/generaluser/name} {Table>/generaluser/firstname}"
+						text="{Table>/generaluser/username}"
 						press="onPressMenu"
 						ariaHasPopup="Menu" />
 				</tnt:ToolHeader>
@@ -55,7 +49,8 @@
 			<tnt:subHeader>
 				<tnt:ToolHeader>
 					<Button
-						text="События"
+						type="Transparent"
+						text="Транзакции"
 						press="handleNav">
 						<layoutData>
 							<FlexItemData growFactor="1" />
@@ -67,7 +62,8 @@
 						</customData>
 					</Button>
 					<Button
-						text="Сводка"
+						type="Transparent"
+						text="Пользователи"
 						press="handleNav">
 						<layoutData>
 							<FlexItemData growFactor="1" />
@@ -104,8 +100,16 @@
 						showHeader="false"
 						title="События">
 						<Toolbar>
+							<ToolbarSpacer>
+								<layoutData>
+									<OverflowToolbarLayoutData
+										priority="NeverOverflow"
+										minWidth="20px" />
+								</layoutData>
+							</ToolbarSpacer>
 							<Button
-								text="Новый чек"
+								type="Transparent"
+								text="Новая транзакция"
 								press="openFragment" />
 						</Toolbar>
 						<List
@@ -227,7 +231,7 @@
 							<items class="tail">
 								<GenericTile
 									class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-									header="{Table>name} {Table>firstname}"
+									header="{Table>username}"
 									subheader="Группа: Lebovsky"
 									press="press"
 									appShortcut="Баланс:"
