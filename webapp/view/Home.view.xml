@@ -152,7 +152,7 @@
 													text="Кто: "
 													class="sapUiSmallMarginBegin colorText" />
 												<Text
-													text="{Table>name1} {Table>firstname1}"
+													text="{Table>username1}"
 													class="sapUiSmallMarginBegin colorText" />
 											</HBox>
 											<HBox>
@@ -161,7 +161,7 @@
 													text="Кому: "
 													class="sapUiSmallMarginBegin colorText" />
 												<Text
-													text="{Table>name2} {Table>firstname2}"
+													text="{Table>username2}"
 													class="sapUiSmallMarginBegin colorText" />
 											</HBox>
 										</VBox>
