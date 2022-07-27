@@ -16,15 +16,13 @@ sap.ui.define([
 
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
-      var provider = new firebase.auth.GoogleAuthProvider();
+      var GoogleProvider = new firebase.auth.GoogleAuthProvider();
 
       return {
 
             google: function () {
-                  firebase.auth().signInWithPopup(provider).then((result) => {
-                        /** @type {firebase.auth.OAuthCredential} */
+                  firebase.auth().signInWithPopup(GoogleProvider).then((result) => {
                         var user = result.user;
-                        console.log(user)
                         var userForm = {
                               "type": "user",
                               "AvatarUrl": "",
@@ -74,6 +72,11 @@ sap.ui.define([
                   }).catch((error) => {
                         // An error happened.
                   });
+            },
+
+            changePassFB: function (sEmail) {
+                  firebase.auth().sendPasswordResetEmail(sEmail).then(() => {
+                  })
             },
 
             addNewUser: function (email, oFormRegister) {
@@ -168,7 +171,6 @@ sap.ui.define([
                         let sID = await oEvents.docs[0].id;
                         dataDocument.money = oMoney;
                         await db.collection("events").doc(sID).update(dataDocument);
-                        console.log(dataDocument);
                   } else {
                         await this.editMoney(sEmail1, sEmail2, oOldMoney, "del");
                         await this.editMoney(sEmail1, sEmail2, oMoney, "new");
@@ -176,7 +178,6 @@ sap.ui.define([
                         let sID = await oEvents.docs[0].id;
                         dataDocument.money = oMoney;
                         await db.collection("events").doc(sID).update(dataDocument);
-                        console.log(dataDocument);
                   }
             },
 

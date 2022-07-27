@@ -104,6 +104,13 @@
 					"target": [
 						"profile"
 					]
+				},
+				{
+					"pattern": "pass/:path:",
+					"name": "pass",
+					"target": [
+						"pass"
+					]
 				}
 				
 			],
@@ -127,6 +134,11 @@
 				"profile": {
 					"viewName": "Profile",
 					"viewId": "profile",
+					"viewLevel": 1
+				},
+				"pass": {
+					"viewName": "Pass",
+					"viewId": "pass",
 					"viewLevel": 1
 				}
 			}

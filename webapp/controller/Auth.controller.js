@@ -33,11 +33,16 @@ sap.ui.define([
         },
 
         googleLogin: function () {
-
             Firebase.google.call(this);
             Firebase.getGeneralUser.call(this);
             Firebase.getAllUsers.call(this);
             Firebase.getEvents.call(this);
+        },
+
+        changePass: function() {
+            this.oRouter.navTo("pass");
         }
+
+
     });
 });

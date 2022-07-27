@@ -10,10 +10,12 @@
         showHeader="false"
         class="sapUiSizeCompact">
         <HBox class="auth">
-            <VBox>
+            <VBox
+                alignItems="Center"
+                alignContent="Center">
                 <Label
                     text="Регистрация"
-                    class="regLabel colorText" />
+                    class="authLabel colorText" />
                 <Input
                     width="15rem"
                     value="{Table>/register/name}"
@@ -25,11 +27,13 @@
                     placeholder="Фамилия"
                     class="sapUiSmallMarginBottom" />
                 <Input
+                    width="15rem"
                     value="{Table>/register/email}"
                     type="Email"
                     placeholder="Email"
                     class="sapUiSmallMarginBottom" />
                 <Input
+                    width="15rem"
                     value="{Table>/register/pass}"
                     type="Password"
                     placeholder="Пароль"

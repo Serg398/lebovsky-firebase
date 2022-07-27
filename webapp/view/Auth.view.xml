@@ -10,7 +10,13 @@
         class="sapUiSizeCompact"
         showHeader="false">
         <HBox class="auth">
-            <VBox>
+            <!-- <Image
+                src='https://firebasestorage.googleapis.com/v0/b/lebovsky-f6643.appspot.com/o/logo%2Fimage%20(14).png?alt=media&amp;token=0aa1bf91-5e41-4d8a-aede-d1ddc42e3b5b'
+                width="400px" 
+                class="sapUiLargeMarginBottom"/> -->
+            <VBox
+                alignItems="Center"
+                alignContent="Center">
                 <Label
                     text="Авторизация в системе"
                     class="authLabel colorText" />
@@ -22,6 +28,7 @@
                     class="sapUiSmallMarginBottom" />
                 <Input
                     id="inputPass"
+                    width="15rem"
                     type="Password"
                     placeholder="Пароль"
                     class="sapUiSmallMarginBottom" />
@@ -37,10 +44,25 @@
                     </Button>
                     <Button
                         text="Зарегистрироваться"
-                        press="pressRouteRegistrate" />
+                        press="pressRouteRegistrate"
+                        class="sapUiSmallMarginBottom" />
                 </HBox>
             </VBox>
-            <Image src="https://img2.freepng.ru/20180506/ttw/kisspng-google-logo-g-suite-mobile-phones-11-5aeeeca85742d5.6453114615256075923574.jpg" width="40px"  press="googleLogin"/>
+            <Button
+                type="Transparent"
+                text="Забыли пароль?"
+                press="changePass"
+                class="sapUiSmallMarginBottom" />
+            <Label
+                text="Войти с помощью:"
+                class="sapUiSmallMarginBottom" />
+            <HBox>
+                <Image
+                    class="sapUiSmallMarginBottom"
+                    src="https://img2.freepng.ru/20180506/ttw/kisspng-google-logo-g-suite-mobile-phones-11-5aeeeca85742d5.6453114615256075923574.jpg"
+                    width="40px"
+                    press="googleLogin" />
+            </HBox>
         </HBox>
     </Page>
 </mvc:View>

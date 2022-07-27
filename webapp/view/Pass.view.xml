@@ -1,0 +1,40 @@
+<mvc:View
+    controllerName="sap.ui.demo.basicTemplate.controller.Pass"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+    <Page
+        id="Pass"
+        class="sapUiSizeCompact"
+        showHeader="false">
+        <HBox class="auth" >
+            <VBox alignItems="Center"
+            alignContent="Center">
+                <Label
+                    text="Введите почту:"/>
+                <Input
+                    id="inputEmail"
+                    width="15rem"
+                    type="Email"
+                    placeholder="Email"
+                     />
+                <HBox>
+                    <Button
+                        width="15rem"
+                        type="Accept"
+                        text="Отправить письмо"
+                        press="sendRemovePass"
+                        ariaDescribedBy="acceptButtonDescription genericButtonDescription">
+                        <layoutData>
+                            <FlexItemData growFactor="1" />
+                        </layoutData>
+                    </Button>
+                </HBox>
+                <Label
+                    text="На указанную почту будет отравлена ссылка для восстановления пароля."/>
+            </VBox>
+        </HBox>
+    </Page>
+</mvc:View>

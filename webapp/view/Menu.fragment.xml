@@ -5,9 +5,11 @@
 		itemSelected="onMenuAction"
 		class="sapUiSizeCompact">
 		<MenuItem
-			text="Настройки"
+			icon="sap-icon://person-placeholder"
+			text="Профиль"
 			press="pressSettings" />
 		<MenuItem
+			icon="sap-icon://journey-arrive"
 			text="Выйти"
 			press="logout" />
 	</Menu>

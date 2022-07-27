@@ -18,15 +18,8 @@
             <tnt:header>
                 <tnt:ToolHeader>
                     <Image
-                        height="2.5rem"
-                        src="https://cdn.icon-icons.com/icons2/1091/PNG/512/profits_78367.png" />
-                    <Title
-                        level="H1"
-                        text="Castula">
-                        <layoutData>
-                            <OverflowToolbarLayoutData shrinkable="true" />
-                        </layoutData>
-                    </Title>
+                        src='https://firebasestorage.googleapis.com/v0/b/lebovsky-f6643.appspot.com/o/logo%2Fimage%20(17).png?alt=media&amp;token=df1897cd-9088-48e0-ab97-c0f974d83fb3'
+                        width="140px" />
                     <Title
                         level="H3"
                         titleStyle="H6"
@@ -54,86 +47,88 @@
                 </tnt:ToolHeader>
             </tnt:header>
             <tnt:mainContents>
-                <NavContainer id="navCon">
-                    <Page
-                        id="p1"
-                        showHeader="false"
-                        title="События">
-                        <VBox class="sapUiSmallMargin">
-                            <Avatar
-                                src="{Table>/generaluser/AvatarUrl}"
-                                displaySize="L"
-                                displayShape="Circle">
-                                <detailBox>
-                                    <LightBox>
-                                        <LightBoxItem
-                                            imageSrc="{Table>/generaluser/AvatarUrl}"
-                                            alt="Michael Adams"
-                                            title="{Table>/generaluser/name} {Table>/generaluser/firstname}"
-                                            subtitle="Организация: Lebovsky"></LightBoxItem>
-                                    </LightBox>
-                                </detailBox>
-                            </Avatar>
-                            <HBox
-                                alignItems="Center"
-                                alignContent="Center">
-                                <Button
-                                    text="Загрузить"
-                                    press="uploadAvatar" />
-                                <html:input
-                                    id="avatar"
-                                    type="file"
-                                    accept=".jpg,.jpeg,.png" />
-                            </HBox>
-                            <ProgressIndicator
-                                displayAnimation="false"
-                                visible="{Table>/indicator}"
-                                width="20%"
-                                id="Progress"
-                                class="sapUiSmallMarginBottom"
-                                percentValue="0"
-                                displayValue="0%"
-                                showValue="true"
-                                state="Information" />
-                            <f:Form
-                                id="FormDisplayColumn_oneGroup"
-                                editable="true">
-                                <f:title>
-                                    <core:Title text="Общая информация" />
-                                </f:title>
-                                <f:layout>
-                                    <f:ColumnLayout />
-                                </f:layout>
-                                <f:formContainers>
-                                    <f:FormContainer>
-                                        <f:formElements>
-                                            <f:FormElement label="Имя">
-                                                <f:fields>
-                                                    <Text text="{Table>/generaluser/username}" />
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement label="Email">
-                                                <f:fields>
-                                                    <Text text="{Table>/generaluser/email}" />
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement label="Город">
-                                                <f:fields>
-                                                    <Text text="{Table>/generaluser/city}" />
-                                                </f:fields>
-                                            </f:FormElement>
-                                        </f:formElements>
-                                    </f:FormContainer>
-                                </f:formContainers>
-                            </f:Form>
-                        </VBox>
-                        <List headerText="Настройки">
-                            <InputListItem label="(Тест) Отображать курс валют в тулбаре:">
-                                <Switch state="true" />
-                            </InputListItem>
-                        </List>
-                    </Page>
-                </NavContainer>
+                <IconTabBar>
+                    <items>
+                        <IconTabFilter
+                            key="info"
+                            text="Информация">
+                            <VBox class="sapUiSmallMargin">
+                                <Avatar
+                                    src="{Table>/generaluser/AvatarUrl}"
+                                    displaySize="L"
+                                    displayShape="Circle">
+                                    <detailBox>
+                                        <LightBox>
+                                            <LightBoxItem
+                                                imageSrc="{Table>/generaluser/AvatarUrl}"
+                                                alt="Michael Adams"
+                                                title="{Table>/generaluser/username}"
+                                                subtitle="Организация: Lebovsky"></LightBoxItem>
+                                        </LightBox>
+                                    </detailBox>
+                                </Avatar>
+                                    <Button
+                                        text="Загрузить"
+                                        press="uploadAvatar" />
+                                    <html:input
+                                        id="avatar"
+                                        type="file"
+                                        accept=".jpg,.jpeg,.png" />
+                                <ProgressIndicator
+                                    displayAnimation="false"
+                                    visible="{Table>/indicator}"
+                                    width="20%"
+                                    id="Progress"
+                                    class="sapUiSmallMarginBottom"
+                                    percentValue="0"
+                                    displayValue="0%"
+                                    showValue="true"
+                                    state="Information" />
+                                </VBox>
+                                <f:Form
+                                    id="FormDisplayColumn_oneGroup"
+                                    editable="true">
+                                    <f:title>
+                                        <core:Title text="Общая информация" />
+                                    </f:title>
+                                    <f:layout>
+                                        <f:ColumnLayout />
+                                    </f:layout>
+                                    <f:formContainers>
+                                        <f:FormContainer>
+                                            <f:formElements>
+                                                <f:FormElement label="Имя">
+                                                    <f:fields>
+                                                        <Text text="{Table>/generaluser/username}" />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement label="Email">
+                                                    <f:fields>
+                                                        <Text text="{Table>/generaluser/email}" />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement label="Город">
+                                                    <f:fields>
+                                                        <Text text="{Table>/generaluser/city}" />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                            </f:formElements>
+                                        </f:FormContainer>
+                                    </f:formContainers>
+                                </f:Form>
+                           
+                        </IconTabFilter>
+                        <IconTabFilter
+                            key="attachments"
+                            text="Настройки" >
+                            <List headerText="Настройки">
+                                <InputListItem label="(Тест) Отображать курс валют в тулбаре:">
+                                    <Switch state="true" />
+                                </InputListItem>
+                            </List>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
             </tnt:mainContents>
         </tnt:ToolPage>
         <footer>
