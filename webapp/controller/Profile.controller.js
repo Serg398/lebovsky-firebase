@@ -51,6 +51,10 @@ sap.ui.define([
 					this.hideBusyIndicator();
 				}.bind(this), iDuration);
 			}
+		},
+
+		getProgect: function() {
+			Firebase.getOrganisation.call(this)
 		}
 	});
 });

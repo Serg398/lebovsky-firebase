@@ -2,7 +2,7 @@
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
 	<Menu
-		itemSelected="onMenuAction"
+		
 		class="sapUiSizeCompact">
 		<MenuItem
 			icon="sap-icon://person-placeholder"

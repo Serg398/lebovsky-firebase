@@ -85,7 +85,10 @@ sap.ui.define([
                         "AvatarUrl": "",
                         "username": oFormRegister.name + ' ' + oFormRegister.firstname,
                         "email": email,
-                        "money": 0
+                        "money": 0,
+                        "organisation": [
+
+                        ]
                   }
                   db.collection("users").doc(email).set(userForm);
             },
@@ -119,7 +122,6 @@ sap.ui.define([
 
             addNewEvent: async function (dataDocument) {
                   let oID = await this.getID().then();
-                  let oMoney = dataDocument.money;
                   let sEmail1 = dataDocument.email1;
                   let sEmail2 = dataDocument.email2;
                   let oUser1 = await db.collection("users").doc(sEmail1).get().then((doc) => {
@@ -187,9 +189,16 @@ sap.ui.define([
                   let oMoney = oEvents.docs[0].data().money;
                   let sEmail1 = oEvents.docs[0].data().email1;
                   let sEmail2 = oEvents.docs[0].data().email2;
-                  await this.editMoney(sEmail1, sEmail2, oMoney, "del");
-                  let oDelete = await db.collection("events").doc(sID).delete();
-                  return oDelete
+                  let sStatus = oEvents.docs[0].data().status;
+                  if (sStatus == true) {
+                        await this.editMoney(sEmail1, sEmail2, oMoney, "del");
+                        let oDelete = await db.collection("events").doc(sID).delete();
+                        return oDelete
+                  } else {
+                        let oDelete = await db.collection("events").doc(sID).delete();
+                        return oDelete
+                  }
+
             },
 
             getEvents: async function () {
@@ -263,6 +272,18 @@ sap.ui.define([
                               this.oRouter.navTo("auth");
                         }
                   });
+            },
+
+            getOrganisation: function () {
+                  db.collection("project/lebovsky/events").where("type", "==", "event").get().then((querySnapshot) => {
+                              querySnapshot.forEach((doc) => {
+                                    // doc.data() is never undefined for query doc snapshots
+                                    console.log(doc.id, " => ", doc.data());
+                              });
+                        })
+                        .catch((error) => {
+                              console.log("Error getting documents: ", error);
+                        });
             }
       };
 });

@@ -36,10 +36,7 @@
                         </layoutData>
                     </ToolbarSpacer>
                     <tnt:ToolHeaderUtilitySeparator />
-                    <Title
-                        text="Баланс: {Table>/generaluser/money} руб."
-                        class="balance" />
-                    <Title text="{Table>/front/account/data/0/name}" />
+                    <Title text="{Table>/generaluser/username}" />
                     <Avatar
                         src="{Table>/generaluser/AvatarUrl}"
                         displaySize="XS"
@@ -67,13 +64,13 @@
                                         </LightBox>
                                     </detailBox>
                                 </Avatar>
-                                    <Button
-                                        text="Загрузить"
-                                        press="uploadAvatar" />
-                                    <html:input
-                                        id="avatar"
-                                        type="file"
-                                        accept=".jpg,.jpeg,.png" />
+                                <Button
+                                    text="Загрузить"
+                                    press="uploadAvatar" />
+                                <html:input
+                                    id="avatar"
+                                    type="file"
+                                    accept=".jpg,.jpeg,.png" />
                                 <ProgressIndicator
                                     displayAnimation="false"
                                     visible="{Table>/indicator}"
@@ -84,43 +81,65 @@
                                     displayValue="0%"
                                     showValue="true"
                                     state="Information" />
-                                </VBox>
-                                <f:Form
-                                    id="FormDisplayColumn_oneGroup"
-                                    editable="true">
-                                    <f:title>
-                                        <core:Title text="Общая информация" />
-                                    </f:title>
-                                    <f:layout>
-                                        <f:ColumnLayout />
-                                    </f:layout>
-                                    <f:formContainers>
-                                        <f:FormContainer>
-                                            <f:formElements>
-                                                <f:FormElement label="Имя">
-                                                    <f:fields>
-                                                        <Text text="{Table>/generaluser/username}" />
-                                                    </f:fields>
-                                                </f:FormElement>
-                                                <f:FormElement label="Email">
-                                                    <f:fields>
-                                                        <Text text="{Table>/generaluser/email}" />
-                                                    </f:fields>
-                                                </f:FormElement>
-                                                <f:FormElement label="Город">
-                                                    <f:fields>
-                                                        <Text text="{Table>/generaluser/city}" />
-                                                    </f:fields>
-                                                </f:FormElement>
-                                            </f:formElements>
-                                        </f:FormContainer>
-                                    </f:formContainers>
-                                </f:Form>
-                           
+                            </VBox>
+                            <f:Form
+                                id="FormDisplayColumn_oneGroup"
+                                editable="true">
+                                <f:title>
+                                    <core:Title text="Общая информация" />
+                                </f:title>
+                                <f:layout>
+                                    <f:ColumnLayout />
+                                </f:layout>
+                                <f:formContainers>
+                                    <f:FormContainer>
+                                        <f:formElements>
+                                            <f:FormElement label="Имя">
+                                                <f:fields>
+                                                    <Text text="{Table>/generaluser/username}" />
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement label="Email">
+                                                <f:fields>
+                                                    <Text text="{Table>/generaluser/email}" />
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement label="Город">
+                                                <f:fields>
+                                                    <Text text="{Table>/generaluser/city}" />
+                                                </f:fields>
+                                            </f:FormElement>
+                                        </f:formElements>
+                                    </f:FormContainer>
+                                </f:formContainers>
+                            </f:Form>
                         </IconTabFilter>
                         <IconTabFilter
                             key="attachments"
-                            text="Настройки" >
+                            text="Настройки">
+                            <List headerText="Настройки">
+                                <InputListItem label="(Тест) Отображать курс валют в тулбаре:">
+                                    <Switch state="true" />
+                                </InputListItem>
+                            </List>
+                        </IconTabFilter>
+                        <IconTabFilter
+                            key="attachments"
+                            text="Организации">
+                            <Input
+                                id="inputEmail"
+                                width="15rem"
+                                type="Email"
+                                placeholder="Email"
+                                class="sapUiSmallMarginBottom" />
+                            <Button
+                                type="Transparent"
+                                text="Получить"
+                                press='getProgect'>
+                                <layoutData>
+                                    <OverflowToolbarLayoutData priority="NeverOverflow" />
+                                </layoutData>
+                            </Button>
                             <List headerText="Настройки">
                                 <InputListItem label="(Тест) Отображать курс валют в тулбаре:">
                                     <Switch state="true" />

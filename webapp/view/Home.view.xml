@@ -9,7 +9,7 @@
 	<Page
 		id="Main"
 		showHeader="false"
-		enableScrolling="true">
+		enableScrolling="false">
 		<tnt:ToolPage
 			id="toolPage"
 			class="toolHead">
@@ -34,15 +34,17 @@
 						</layoutData>
 					</ToolbarSpacer>
 					<tnt:ToolHeaderUtilitySeparator />
+					<Text
+						id="button"
+						text="{Table>/generaluser/username}"/>
 					<Avatar
 						src="{Table>/generaluser/AvatarUrl}"
 						displaySize="XS"
-						backgroundColor="Transparent"></Avatar>
-					<Link
-						id="button"
-						text="{Table>/generaluser/username}"
-						press="onPressMenu"
-						ariaHasPopup="Menu" />
+						backgroundColor="Transparent" />
+					<core:Icon
+						id="button2"
+						src="sap-icon://menu2"
+						press="onPressMenu"/>
 				</tnt:ToolHeader>
 			</tnt:header>
 			<tnt:subHeader>
@@ -96,6 +98,7 @@
 				<NavContainer id="navCon">
 					<Page
 						id="p1"
+						enableScrolling="false"
 						showHeader="false"
 						title="События">
 						<Toolbar>
@@ -111,111 +114,118 @@
 								text="Новая транзакция"
 								press="openFragment" />
 						</Toolbar>
-						<List
-							class="sapUiSmallMarginTop"
-							delete="delItemList"
-							mode="None"
-							id="ShortProductList"
-							items="{Table>/events}">
-							<CustomListItem
-								type="Active"
-								press="pressEvent">
-								<HBox>
-									<HBox
-										width="20%"
-										alignItems="Center"
-										alignContent="Center">
-										<core:Icon
-											visible="{= !${device>/system/phone} }"
-											class="imgCahsItem"
-											color="#1C4C98"
-											width="3%"
-											src="sap-icon://credit-card"
-											size="50px" />
-										<Text
-											class="colorText"
-											width="5rem"
-											text="Чек № {Table>id}" />
-										<Text
-											width="5rem"
-											text="{Table>DP}" />
-									</HBox>
-									<HBox
-										width="40%"
-										alignItems="Center"
-										alignContent="Center">
-										<VBox>
-											<HBox>
-												<Text
-													width="3rem"
-													text="Кто: "
-													class="sapUiSmallMarginBegin colorText" />
-												<Text
-													text="{Table>username1}"
-													class="sapUiSmallMarginBegin colorText" />
-											</HBox>
-											<HBox>
-												<Text
-													width="3rem"
-													text="Кому: "
-													class="sapUiSmallMarginBegin colorText" />
-												<Text
-													text="{Table>username2}"
-													class="sapUiSmallMarginBegin colorText" />
-											</HBox>
-										</VBox>
-									</HBox>
-									<HBox width="10%"
-										alignItems="Center"
-										alignContent="Center">
-										<Button
-											class="sapUiSizeCompact"
-											text="Подтвердить"
-											type="Accept"
-											press="statusOnEvent"
-											visible="{= ${Table>status} === ${Table>/generaluser/email}}" />
-										<core:Icon
-											visible="{= ${Table>status} !== ${Table>/generaluser/email}}"
-											color="{= ${Table>status} === true ? '#00AA00' : '#CCAA00'}"
-											width="20px"
-											src="{= ${Table>status} === true ? 'sap-icon://accept' : 'sap-icon://alert'}"
-											size="15px" />
-										<Text
-											width="7rem"
-											visible="{= ${Table>status} !== ${Table>/generaluser/email}}"
-											text="{= ${Table>status} === true ? 'Подтвержден' : 'Не подтвержден'}" />
-									</HBox>
-									<HBox
-										width="20%"
-										alignItems="Center"
-										alignContent="Center">
-										<Text
-											width="7.5rem"
-											text="Размер суммы: "
-											class="sapUiSmallMarginBegin colorText" />
-										<Text
-											class="balance"
-											width="7rem"
-											text="{Table>money} руб." />
-										<core:Icon
-											src="sap-icon://post"
-											color="#1C4C98"
-											size="25px"
-											width="50px"
-											press="comentPopoverPress" />
-										<core:Icon
-											press="deleteEvent"
-											color="#1C4C98"
-											width="50px"
-											src="sap-icon://delete"
-											size="25px" />
+						<ScrollContainer
+							height="100%"
+							width="100%"
+							vertical="true"
+							focusable="true">
+							<List
+								class="sapUiSmallMarginTop"
+								delete="delItemList"
+								mode="None"
+								id="ShortProductList"
+								items="{Table>/events}">
+								<CustomListItem
+									type="Active"
+									press="pressEvent">
+									<HBox>
+										<HBox
+											width="20%"
+											alignItems="Center"
+											alignContent="Center">
+											<core:Icon
+												visible="{= !${device>/system/phone} }"
+												class="imgCahsItem"
+												color="#1C4C98"
+												width="3%"
+												src="sap-icon://credit-card"
+												size="50px" />
+											<Text
+												class="colorText"
+												width="5rem"
+												text="Чек № {Table>id}" />
+											<Text
+												width="5rem"
+												text="{Table>DP}" />
+										</HBox>
+										<HBox
+											width="40%"
+											alignItems="Center"
+											alignContent="Center">
+											<VBox>
+												<HBox>
+													<Text
+														width="3rem"
+														text="Кто: "
+														class="sapUiSmallMarginBegin colorText" />
+													<Text
+														text="{Table>username1}"
+														class="sapUiSmallMarginBegin colorText" />
+												</HBox>
+												<HBox>
+													<Text
+														width="3rem"
+														text="Кому: "
+														class="sapUiSmallMarginBegin colorText" />
+													<Text
+														text="{Table>username2}"
+														class="sapUiSmallMarginBegin colorText" />
+												</HBox>
+											</VBox>
+										</HBox>
+										<HBox
+											width="10%"
+											alignItems="Center"
+											alignContent="Center">
+											<Button
+												class="sapUiSizeCompact"
+												text="Подтвердить"
+												type="Accept"
+												press="statusOnEvent"
+												visible="{= ${Table>status} === ${Table>/generaluser/email}}" />
+											<core:Icon
+												visible="{= ${Table>status} !== ${Table>/generaluser/email}}"
+												color="{= ${Table>status} === true ? '#00AA00' : '#CCAA00'}"
+												width="20px"
+												src="{= ${Table>status} === true ? 'sap-icon://accept' : 'sap-icon://alert'}"
+												size="15px" />
+											<Text
+												width="7rem"
+												visible="{= ${Table>status} !== ${Table>/generaluser/email}}"
+												text="{= ${Table>status} === true ? 'Подтвержден' : 'Не подтвержден'}" />
+										</HBox>
+										<HBox
+											width="20%"
+											alignItems="Center"
+											alignContent="Center">
+											<Text
+												width="7.5rem"
+												text="Размер суммы: "
+												class="sapUiSmallMarginBegin colorText" />
+											<Text
+												class="balance"
+												width="7rem"
+												text="{Table>money} руб." />
+											<core:Icon
+												src="sap-icon://post"
+												color="#1C4C98"
+												size="25px"
+												width="50px"
+												press="comentPopoverPress" />
+											<core:Icon
+												press="deleteEvent"
+												color="#1C4C98"
+												width="50px"
+												src="sap-icon://delete"
+												size="25px" />
 
+										</HBox>
 									</HBox>
-								</HBox>
-							</CustomListItem>
-						</List>
+								</CustomListItem>
+							</List>
+						</ScrollContainer>
 					</Page>
-					<Page
+					<!-- <Page
 						id="p2"
 						showHeader="false"
 						title="Общая сводка">
@@ -245,7 +255,7 @@
 								</GenericTile>
 							</items>
 						</FlexBox>
-					</Page>
+					</Page> -->
 				</NavContainer>
 			</tnt:mainContents>
 		</tnt:ToolPage>
