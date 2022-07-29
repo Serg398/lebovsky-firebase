@@ -127,23 +127,47 @@
                             key="attachments"
                             text="Организации">
                             <Input
-                                id="inputEmail"
-                                width="15rem"
-                                type="Email"
-                                placeholder="Email"
-                                class="sapUiSmallMarginBottom" />
+                                id="newClasterid"
+                                placeholder="Комментарий" />
                             <Button
                                 type="Transparent"
-                                text="Получить"
-                                press='getProgect'>
+                                text="Создать кластер"
+                                press='newClaster'>
                                 <layoutData>
                                     <OverflowToolbarLayoutData priority="NeverOverflow" />
                                 </layoutData>
                             </Button>
-                            <List headerText="Настройки">
-                                <InputListItem label="(Тест) Отображать курс валют в тулбаре:">
-                                    <Switch state="true" />
-                                </InputListItem>
+                            <List
+                                class="sapUiSmallMarginTop"
+                                delete="delItemList"
+                                mode="None"
+                                id="ShortProductList"
+                                items="{Table>/mainClasters}">
+                                <CustomListItem
+                                    type="Active"
+                                    press="pressEvent">
+                                    <HBox>
+                                        <HBox
+                                            alignItems="Center"
+                                            alignContent="Center">
+                                            <core:Icon
+                                                class="imgCahsItem"
+                                                width="5rem"
+                                                size="30px"
+                                                src="sap-icon://group" />
+                                            <Text
+                                                width="10rem"
+                                                text="Название:  {Table>name}" />
+                                            <Text text="Ваша роль:  {Table>role}" />
+                                            <core:Icon
+                                                press="deleteClaster"
+                                                color="#1C4C98"
+                                                width="50px"
+                                                src="sap-icon://delete"
+                                                size="25px" />
+                                        </HBox>
+                                    </HBox>
+                                </CustomListItem>
                             </List>
                         </IconTabFilter>
                     </items>

@@ -19,7 +19,6 @@ sap.ui.define([
       var GoogleProvider = new firebase.auth.GoogleAuthProvider();
 
       return {
-
             google: function () {
                   firebase.auth().signInWithPopup(GoogleProvider).then((result) => {
                         var user = result.user;
@@ -43,8 +42,7 @@ sap.ui.define([
 
             getAllUsers: function () {
                   var oModel = this.getModel("Table");
-                  db.collection("users").where("type", "==", "user")
-                        .onSnapshot((querySnapshot) => {
+                  db.collection("users").where("type", "==", "user").onSnapshot((querySnapshot) => {
                               var users = [];
                               querySnapshot.forEach((doc) => {
                                     users.push(doc.data());
@@ -97,9 +95,7 @@ sap.ui.define([
                   var oModel = this.getModel("Table");
                   firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
-                              db.collection("users")
-                                    .where("email", "==", user.email)
-                                    .onSnapshot((querySnapshot) => {
+                              db.collection("users").where("email", "==", user.email).onSnapshot((querySnapshot) => {
                                           var generalusers = [];
                                           querySnapshot.forEach((doc) => {
                                                 generalusers.push(doc.data());
@@ -203,8 +199,7 @@ sap.ui.define([
 
             getEvents: async function () {
                   var oModel = this.getModel("Table");
-                  db.collection("events").where("type", "==", "event")
-                        .onSnapshot((querySnapshot) => {
+                  db.collection("events").where("type", "==", "event").onSnapshot((querySnapshot) => {
                               var cities = [];
                               querySnapshot.forEach((doc) => {
                                     cities.push(doc.data());
@@ -274,16 +269,80 @@ sap.ui.define([
                   });
             },
 
+            newClasterFB: async function (nameClaster) {
+                  await firebase.auth().onAuthStateChanged((user) => {
+                        if (user) {
+                              db.collection("project").doc(nameClaster).set({
+                                    type: "claster",
+                                    admin: user.email
+                              }).then(() => {
+                                    db.collection("users").doc(user.email).get().then((doc) => {
+                                          if (doc.exists) {
+                                                var userForm = {
+                                                      "AvatarUrl": doc.data().AvatarUrl,
+                                                      "order": "admin",
+                                                      "email": doc.data().email,
+                                                      "money": 0,
+                                                      "type": doc.data().type,
+                                                      "username": doc.data().username,
+                                                }
+                                                db.collection("project/" + nameClaster + "/users").doc(user.email).set(userForm)
+                                                db.collection("users/" + user.email + "/organisation").doc(nameClaster).set({
+                                                      author: user.email,
+                                                      type: "claster",
+                                                      name: nameClaster,
+                                                      role: "admin"
+                                                })
+                                          } else {
+                                                console.log("No such document!");
+                                          }
+                                    }).catch((error) => {
+                                          console.log("Error getting document:", error);
+                                    });
+                              })
+                        }
+                  });
+            },
+
+            getAllClasterFB: async function () {
+                  var oModel = this.getModel("Table");
+                  firebase.auth().onAuthStateChanged((user) => {
+                        db.collection("users/"+user.email+"/organisation").where("type", "==", "claster").onSnapshot((querySnapshot) => {
+                              var mainClasters = []
+                              querySnapshot.forEach((doc) => {
+                                    mainClasters.push(doc.data());
+                            });
+                            oModel.setProperty("/mainClasters", mainClasters);
+                        });
+                  })
+            },
+
+            newUserClasterFB: function (userEmail, claster) {
+                  db.collection("project/" + claster + "/users").doc(userEmail).set({
+                        type: "user"
+                  }).then(() => {
+                        console.log("Document successfully written!");
+                  }).catch((error) => {
+                              console.error("Error writing document: ", error);
+                        });
+            },
+
+            deleteClasterFB: function(nameClaster) {
+                  firebase.auth().onAuthStateChanged((user) => {
+                        db.collection("users/"+user.email+"/organisation").doc(nameClaster).delete()
+                        db.collection("project").doc(nameClaster).delete()
+                  })
+            },
+
             getOrganisation: function () {
                   db.collection("project/lebovsky/events").where("type", "==", "event").get().then((querySnapshot) => {
-                              querySnapshot.forEach((doc) => {
-                                    // doc.data() is never undefined for query doc snapshots
-                                    console.log(doc.id, " => ", doc.data());
-                              });
-                        })
-                        .catch((error) => {
-                              console.log("Error getting documents: ", error);
+                        querySnapshot.forEach((doc) => {
+                              // doc.data() is never undefined for query doc snapshots
+                              console.log(doc.id, " => ", doc.data());
                         });
+                  }).catch((error) => {
+                        console.log("Error getting documents: ", error);
+                  });
             }
       };
 });

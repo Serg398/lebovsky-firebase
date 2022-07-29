@@ -1,0 +1,111 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <Dialog
+        class="sapUiSizeCompact"
+        contentHeight="400px"
+        contentWidth="700px"
+        title="Создание нового кластера">
+        <Page showHeader="false">
+            <content>
+                <f:Form
+                    id="form"
+                    editable="true"
+                    title="Создание нового кластера">
+                    <f:layout>
+                        <f:ResponsiveGridLayout />
+                    </f:layout>
+                    <f:formContainers>
+                        <f:FormContainer id="formContainer">
+                            <f:FormElement>
+                                <f:label>
+                                    <Label
+                                        text="Дата:"
+                                        required="true" />
+                                </f:label>
+                                <f:fields>
+                                    <DatePicker
+                                        id="DP"
+                                        displayFormat="short"
+                                        value="{Table>/new/DP}" />
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label
+                                        text="Вы"
+                                        required="true" />
+                                </f:label>
+                                <f:fields>
+                                    <Select
+                                        editable="false"
+                                        selectedKey="{Table>/new/email1}"
+                                        items="{Table>/generaluser}">
+                                        <core:Item
+                                            key="{Table>/generaluser/email}"
+                                            text="{Table>/generaluser/username}" />
+                                    </Select>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label
+                                        text="Кому"
+                                        required="true" />
+                                </f:label>
+                                <f:fields>
+                                    <Select
+                                        editable="{= !${Table>/new/id}}"
+                                        forceSelection="false"
+                                        selectedKey="{Table>/new/email2}"
+                                        items="{Table>/users}">
+                                        <core:Item
+                                            key="{Table>email}"
+                                            text="{Table>username}" />
+                                    </Select>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label
+                                        text="Сумма"
+                                        required="true" />
+                                </f:label>
+                                <f:fields>
+                                    <Input
+                                        value="{path: 'Table>/new/money',
+                                                type: 'sap.ui.model.type.Integer'}"
+                                        placeholder="Введите сумму" />
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label text="Комментарий" />
+                                </f:label>
+                                <f:fields>
+                                    <Input
+                                        value="{Table>/new/comments}"
+                                        placeholder="Комментарий" />
+                                </f:fields>
+                            </f:FormElement>
+                        </f:FormContainer>
+                    </f:formContainers>
+                </f:Form>
+            </content>
+            <footer>
+                <Toolbar id="otbFooter">
+                    <ToolbarSpacer />
+                    <Button
+                        type="Accept"
+                        text="Отправить"
+                        press="addEvent" />
+                    <Button
+                        type="Reject"
+                        text="Отмена"
+                        press="onCloseDialogEvent" />
+                </Toolbar>
+            </footer>
+        </Page>
+    </Dialog>
+</core:FragmentDefinition>
