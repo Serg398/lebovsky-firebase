@@ -1,0 +1,31 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <Dialog
+        class="sapUiSizeCompact"
+        contentHeight="400px"
+        contentWidth="600px"
+        title="Создание нового кластера">
+        <Page showHeader="false">
+            <content>
+                <Input
+                    value="{Table>/addUserClaster}"
+                    placeholder="Введите Email" />
+            </content>
+            <footer>
+                <Toolbar>
+                    <ToolbarSpacer />
+                    <Button
+                        type="Accept"
+                        text="Добавить"
+                        press="newAddUserClaster" />
+                    <Button
+                        type="Reject"
+                        text="Отмена"
+                        press="onCloseDialogUserClaster" />
+                </Toolbar>
+            </footer>
+        </Page>
+    </Dialog>
+</core:FragmentDefinition>

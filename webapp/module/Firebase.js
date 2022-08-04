@@ -20,44 +20,49 @@ sap.ui.define([
 
       return {
             google: function () {
-                  firebase.auth().signInWithPopup(GoogleProvider).then((result) => {
-                        var user = result.user;
-                        var userForm = {
-                              "type": "user",
-                              "AvatarUrl": "",
-                              "username": user.displayName,
-                              "email": user.email,
-                              "money": 0
-                        }
-                        db.collection("users").doc(user.email).get().then((doc) => {
-                              if (doc.exists) {
-                                    this.oRouter.navTo("home");
-                              } else {
-                                    db.collection("users").doc(user.email).set(userForm);
-                                    this.oRouter.navTo("home");
+                  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+                        var oAuth = firebase.auth().signInWithPopup(GoogleProvider).then((result) => {
+                              var user = result.user;
+                              var userForm = {
+                                    "type": "user",
+                                    "AvatarUrl": "",
+                                    "username": user.displayName,
+                                    "email": user.email
                               }
+                              db.collection("users").doc(user.email).get().then((doc) => {
+                                    if (doc.exists) {
+                                          this.oRouter.navTo("home");
+                                    } else {
+                                          db.collection("users").doc(user.email).set(userForm);
+                                          this.oRouter.navTo("home");
+                                    }
+                              })
                         })
+                        return oAuth
+                  })
+            },
+
+            login: function (email, password) {
+                  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+                        firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+                              this.oRouter.navTo("home");
+                        });
                   })
             },
 
             getAllUsers: function () {
                   var oModel = this.getModel("Table");
                   db.collection("users").where("type", "==", "user").onSnapshot((querySnapshot) => {
-                              var users = [];
-                              querySnapshot.forEach((doc) => {
-                                    users.push(doc.data());
-                              });
-                              oModel.setProperty("/users", users);
+                        var users = [];
+                        querySnapshot.forEach((doc) => {
+                              users.push(doc.data());
                         });
+                        oModel.setProperty("/users", users);
+                  });
             },
 
-            //Auth and Register
             register: function (email, password) {
                   return firebase.auth().createUserWithEmailAndPassword(email, password);
-            },
-
-            login: function (email, password) {
-                  return firebase.auth().signInWithEmailAndPassword(email, password);
             },
 
             logOut: function () {
@@ -67,9 +72,7 @@ sap.ui.define([
                         oModel.setProperty("/events", []);
                         oModel.setProperty("/users", []);
                         this.oRouter.navTo("auth");
-                  }).catch((error) => {
-                        // An error happened.
-                  });
+                  })
             },
 
             changePassFB: function (sEmail) {
@@ -83,10 +86,7 @@ sap.ui.define([
                         "AvatarUrl": "",
                         "username": oFormRegister.name + ' ' + oFormRegister.firstname,
                         "email": email,
-                        "money": 0,
-                        "organisation": [
-
-                        ]
+                        "money": 0
                   }
                   db.collection("users").doc(email).set(userForm);
             },
@@ -96,19 +96,19 @@ sap.ui.define([
                   firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
                               db.collection("users").where("email", "==", user.email).onSnapshot((querySnapshot) => {
-                                          var generalusers = [];
-                                          querySnapshot.forEach((doc) => {
-                                                generalusers.push(doc.data());
-                                          });
-                                          oModel.setProperty("/generaluser", generalusers[0])
+                                    var generalusers = [];
+                                    querySnapshot.forEach((doc) => {
+                                          generalusers.push(doc.data());
                                     });
+                                    oModel.setProperty("/generaluser", generalusers[0]);
+                                    console.log(generalusers[0]);
+                              });
                         } else {
                               this.oRouter.navTo("auth");
                         }
                   });
             },
 
-            //Events
             getID: function () {
                   let oID = db.collection("ID").doc("ID").get().then((doc) => {
                         return doc.data().id;
@@ -194,21 +194,20 @@ sap.ui.define([
                         let oDelete = await db.collection("events").doc(sID).delete();
                         return oDelete
                   }
-
             },
 
             getEvents: async function () {
                   var oModel = this.getModel("Table");
                   db.collection("events").where("type", "==", "event").onSnapshot((querySnapshot) => {
-                              var cities = [];
-                              querySnapshot.forEach((doc) => {
-                                    cities.push(doc.data());
-                              });
-                              var sortEvents = cities.sort(function (a, b) {
-                                    return b.id - a.id
-                              })
-                              oModel.setProperty("/events", sortEvents);
+                        var cities = [];
+                        querySnapshot.forEach((doc) => {
+                              cities.push(doc.data());
                         });
+                        var sortEvents = cities.sort(function (a, b) {
+                              return b.id - a.id
+                        })
+                        oModel.setProperty("/events", sortEvents);
+                  });
             },
 
             editMoney: async function (email1, email2, money, status) {
@@ -269,37 +268,54 @@ sap.ui.define([
                   });
             },
 
-            newClasterFB: async function (nameClaster) {
-                  await firebase.auth().onAuthStateChanged((user) => {
+            newClasterFB: async function (nameClaster, dateClaster) {
+                  await firebase.auth().onAuthStateChanged(async (user) => {
                         if (user) {
-                              db.collection("project").doc(nameClaster).set({
-                                    type: "claster",
-                                    admin: user.email
-                              }).then(() => {
-                                    db.collection("users").doc(user.email).get().then((doc) => {
-                                          if (doc.exists) {
-                                                var userForm = {
-                                                      "AvatarUrl": doc.data().AvatarUrl,
-                                                      "order": "admin",
-                                                      "email": doc.data().email,
-                                                      "money": 0,
-                                                      "type": doc.data().type,
-                                                      "username": doc.data().username,
-                                                }
-                                                db.collection("project/" + nameClaster + "/users").doc(user.email).set(userForm)
-                                                db.collection("users/" + user.email + "/organisation").doc(nameClaster).set({
-                                                      author: user.email,
-                                                      type: "claster",
-                                                      name: nameClaster,
-                                                      role: "admin"
-                                                })
-                                          } else {
-                                                console.log("No such document!");
-                                          }
-                                    }).catch((error) => {
-                                          console.log("Error getting document:", error);
+                              var allClasters = []
+                              await db.collection("project").where("name", "==", nameClaster).get().then((querySnapshot) => {
+                                    querySnapshot.forEach((doc) => {
+                                          allClasters.push(doc.data());
                                     });
-                              })
+                                    if (allClasters.length == 0) {
+                                          db.collection("project").doc(nameClaster).set({
+                                                type: "claster",
+                                                admin: user.email,
+                                                DP: dateClaster,
+                                                name: nameClaster
+                                          }).then(() => {
+                                                db.collection("users").doc(user.email).get().then((doc) => {
+                                                      if (doc.exists) {
+                                                            var userForm = {
+                                                                  "AvatarUrl": doc.data().AvatarUrl,
+                                                                  "role": "admin",
+                                                                  "email": doc.data().email,
+                                                                  "money": 0,
+                                                                  "type": doc.data().type,
+                                                                  "username": doc.data().username,
+                                                            }
+                                                            db.collection("project/" + nameClaster + "/users").doc(user.email).set(userForm)
+                                                            db.collection("users/" + user.email + "/organisation").doc(nameClaster).set({
+                                                                  author: user.email,
+                                                                  type: "claster",
+                                                                  name: nameClaster,
+                                                                  role: "admin"
+                                                            })
+                                                            db.collection("project/" + nameClaster + "/ID").doc("eventID").set({
+                                                                  id: 0
+                                                            });
+                                                      } else {
+                                                            console.log("No such document!");
+                                                      }
+                                                }).catch((error) => {
+                                                      console.log("Error getting document:", error);
+                                                });
+                                          })
+                                    } else {
+                                          MessageToast.show("Такое имя уже занято");
+                                    }
+                              }).catch((error) => {
+                                    console.log("Error getting documents: ", error);
+                              });
                         }
                   });
             },
@@ -307,42 +323,90 @@ sap.ui.define([
             getAllClasterFB: async function () {
                   var oModel = this.getModel("Table");
                   firebase.auth().onAuthStateChanged((user) => {
-                        db.collection("users/"+user.email+"/organisation").where("type", "==", "claster").onSnapshot((querySnapshot) => {
+                        db.collection("users/" + user.email + "/organisation").where("type", "==", "claster").onSnapshot((querySnapshot) => {
                               var mainClasters = []
                               querySnapshot.forEach((doc) => {
                                     mainClasters.push(doc.data());
-                            });
-                            oModel.setProperty("/mainClasters", mainClasters);
+                              });
+                              oModel.setProperty("/mainClasters", mainClasters);
                         });
                   })
             },
 
-            newUserClasterFB: function (userEmail, claster) {
-                  db.collection("project/" + claster + "/users").doc(userEmail).set({
-                        type: "user"
-                  }).then(() => {
-                        console.log("Document successfully written!");
-                  }).catch((error) => {
-                              console.error("Error writing document: ", error);
-                        });
-            },
-
-            deleteClasterFB: function(nameClaster) {
-                  firebase.auth().onAuthStateChanged((user) => {
-                        db.collection("users/"+user.email+"/organisation").doc(nameClaster).delete()
-                        db.collection("project").doc(nameClaster).delete()
-                  })
-            },
-
-            getOrganisation: function () {
-                  db.collection("project/lebovsky/events").where("type", "==", "event").get().then((querySnapshot) => {
+            newUserClasterFB: function (sClaster) {
+                  var oModel = this.getModel("Table");
+                  var userEmail = oModel.getProperty("/addUserClaster");
+                  var sClaster = oModel.getProperty("/etitClaster");
+                  db.collection("project/" + sClaster + "/users").where("email", "==", userEmail).get().then((querySnapshot) => {
+                        var oUsers = []
                         querySnapshot.forEach((doc) => {
-                              // doc.data() is never undefined for query doc snapshots
-                              console.log(doc.id, " => ", doc.data());
+                              oUsers.push(doc.data())
+                        });
+                        if (oUsers.length === 0) {
+                              db.collection("users").doc(userEmail).get().then((doc) => {
+                                    var userForm = {
+                                          "AvatarUrl": doc.data().AvatarUrl,
+                                          "role": "user",
+                                          "email": doc.data().email,
+                                          "money": 0,
+                                          "type": "user",
+                                          "username": doc.data().username,
+                                    }
+                                    db.collection("project/" + sClaster + "/users").doc(userEmail).set(userForm).then(() => {
+                                          console.log("Добавлен новый пользователь");
+                                    })
+                                    db.collection("users/" + userEmail + "/organisation").doc(sClaster).set({
+                                          type: "claster",
+                                          name: sClaster,
+                                          role: "user"
+                                    })
+                              })
+                        } else {
+                              MessageToast.show("Такой пользователь уже существует в группе");
+                        }
+                  })
+            },
+
+            deleteClasterFB: function (nameClaster) {
+                  db.collection("project/" + nameClaster + "/users").where("type", "==", "user").get().then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                              db.collection("project/" + nameClaster + "/users").doc(doc.data().email).delete();
+                              db.collection("users/" + doc.data().email + "/organisation").doc(nameClaster).delete();
                         });
                   }).catch((error) => {
                         console.log("Error getting documents: ", error);
                   });
+                  db.collection("project/" + nameClaster + "/ID").doc("eventID").delete();
+                  db.collection("project").doc(nameClaster).delete();
+            },
+
+            deleteUserClasterFB: function (userEmail) {
+                  var oModel = this.getModel("Table");
+                  var sClaster = oModel.getProperty("/etitClaster");
+                  db.collection("users/" + userEmail + "/organisation").doc(sClaster).delete();
+                  db.collection("project/" + sClaster + "/users").doc(userEmail).delete();
+            },
+
+            editClaster: function () {
+                  var oModel = this.getModel("Table");
+                  var nameClaster = oModel.getProperty("/etitClaster");
+                  db.collection("project/" + nameClaster + "/users").where("type", "==", "user").onSnapshot((querySnapshot) => {
+                        var userListClaster = []
+                        querySnapshot.forEach((doc) => {
+                              userListClaster.push(doc.data());
+                              console.log(doc.data());
+                        });
+                        oModel.setProperty("/userListClaster", userListClaster);
+                  })
+            },
+            
+            selectedClasterFB: function(oClaster) {
+                  var oModel = this.getModel("Table");
+                  firebase.auth().onAuthStateChanged((user) => {
+                        db.collection("users").doc(user.email).get().then((doc) => {
+                              oModel.setProperty("/selectClaster", userListClaster);
+                        })
+                  })
             }
       };
 });

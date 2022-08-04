@@ -1,0 +1,65 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <Dialog
+        class="sapUiSizeCompact"
+        contentHeight="600px"
+        contentWidth="800px"
+        title="Список пользователей">
+        <Page showHeader="false">
+            <Panel>
+                <Toolbar>
+                    <ToolbarSpacer>
+                        <layoutData>
+                            <OverflowToolbarLayoutData
+                                priority="NeverOverflow"
+                                minWidth="20px" />
+                        </layoutData>
+                    </ToolbarSpacer>
+                    <Button
+                        type="Transparent"
+                        text="Добавить пользователя"
+                        press="openAddUserClaster" />
+                </Toolbar>
+            </Panel>
+            <Table
+                id="productsTable"
+                items="{Table>/userListClaster}">
+                <columns>
+                    <Column>
+                        <Text text="Пользователи" />
+                    </Column>
+                    <Column>
+                        <Text text="Email" />
+                    </Column>
+                    <Column>
+                        <Text text="Роли" />
+                    </Column>
+                    <Column>
+                        <Text text="Действия" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem vAlign="Middle">
+                        <cells>
+                            <Text text="{Table>username}" />
+                            <Text text="{Table>email}" />
+                            <Text text="{Table>role}" />
+                            <Button press="deleteUserClaster" text = "Удалить" visible="{= ${Table>role} === 'user' &amp;&amp; ${Table>email} !== ${Table>/generaluser/email}}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+            <footer>
+                <Toolbar>
+                    <ToolbarSpacer />
+                    <Button
+                        type="Reject"
+                        text="Закрыть"
+                        press="onCloseDialogClaster" />
+                </Toolbar>
+            </footer>
+        </Page>
+    </Dialog>
+</core:FragmentDefinition>

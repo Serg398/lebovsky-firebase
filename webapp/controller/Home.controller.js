@@ -19,6 +19,14 @@ sap.ui.define([
 			Firebase.getGeneralUser.call(this);
 			Firebase.getAllUsers.call(this);
 			Firebase.getEvents.call(this);
+			Firebase.getAllClasterFB.call(this)
+		},
+
+		selectedClaster: async function() {
+			var oModel = this.getModel("Table");
+			var oClaster = oModel.getProperty("/SelectedClaster");
+			
+			
 		},
 
 		addEvent: async function () {

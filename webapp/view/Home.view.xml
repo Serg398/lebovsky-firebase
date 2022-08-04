@@ -18,6 +18,18 @@
 					<Image
 						src='https://firebasestorage.googleapis.com/v0/b/lebovsky-f6643.appspot.com/o/logo%2Fimage%20(17).png?alt=media&amp;token=df1897cd-9088-48e0-ab97-c0f974d83fb3'
 						width="140px" />
+					<Select
+						width="20%"
+						class="sapUiSizeCompact"
+						forceSelection="true"
+						selectedKey="{Table>/SelectedClaster}"
+						items="{Table>/mainClasters}"
+						change="selectedClaster"
+						liveChange="selectedClaster">
+						<core:ListItem
+							key="{Table>name}"
+							text="{Table>name}" />
+					</Select>
 					<Title
 						level="H3"
 						titleStyle="H6"
@@ -36,7 +48,7 @@
 					<tnt:ToolHeaderUtilitySeparator />
 					<Text
 						id="button"
-						text="{Table>/generaluser/username}"/>
+						text="{Table>/generaluser/username}" />
 					<Avatar
 						src="{Table>/generaluser/AvatarUrl}"
 						displaySize="XS"
@@ -44,7 +56,7 @@
 					<core:Icon
 						id="button2"
 						src="sap-icon://menu2"
-						press="onPressMenu"/>
+						press="onPressMenu" />
 				</tnt:ToolHeader>
 			</tnt:header>
 			<tnt:subHeader>
@@ -225,37 +237,6 @@
 							</List>
 						</ScrollContainer>
 					</Page>
-					<!-- <Page
-						id="p2"
-						showHeader="false"
-						title="Общая сводка">
-						<FlexBox
-							direction="Row"
-							renderType="Bare"
-							wrap="Wrap"
-							width="100%"
-							displayInline="true"
-							fitContainer="true"
-							items="{Table>/users}">
-							<items class="tail">
-								<GenericTile
-									class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-									header="{Table>username}"
-									subheader="Группа: Lebovsky"
-									press="press"
-									appShortcut="Баланс:"
-									systemInfo="{Table>money}">
-									<TileContent>
-										<Avatar
-											src="{Table>AvatarUrl}"
-											displayShape="Square"
-											displaySize="L"
-											backgroundColor="Transparent"></Avatar>
-									</TileContent>
-								</GenericTile>
-							</items>
-						</FlexBox>
-					</Page> -->
 				</NavContainer>
 			</tnt:mainContents>
 		</tnt:ToolPage>

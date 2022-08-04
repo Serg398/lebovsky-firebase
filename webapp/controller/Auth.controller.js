@@ -21,15 +21,7 @@ sap.ui.define([
                 sEmail = oEmail.getValue(),
                 oPass = this.getView().byId("inputPass"),
                 sPass = oPass.getValue();
-            Firebase.login(sEmail, sPass).then((userCredential) => {
-                Firebase.getGeneralUser.call(this);
-                Firebase.getAllUsers.call(this);
-                Firebase.getEvents.call(this);
-                this.oRouter.navTo("home");
-            })
-                .catch(() => {
-                    MessageToast.show("Не верный логин или пароль")
-                });
+            Firebase.login.call(this, sEmail, sPass)
         },
 
         googleLogin: function () {

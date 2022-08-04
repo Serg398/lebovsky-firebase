@@ -28,65 +28,17 @@
                                     <DatePicker
                                         id="DP"
                                         displayFormat="short"
-                                        value="{Table>/new/DP}" />
+                                        value="{Table>/newclaster/DP}" />
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>
                                 <f:label>
-                                    <Label
-                                        text="Вы"
-                                        required="true" />
-                                </f:label>
-                                <f:fields>
-                                    <Select
-                                        editable="false"
-                                        selectedKey="{Table>/new/email1}"
-                                        items="{Table>/generaluser}">
-                                        <core:Item
-                                            key="{Table>/generaluser/email}"
-                                            text="{Table>/generaluser/username}" />
-                                    </Select>
-                                </f:fields>
-                            </f:FormElement>
-                            <f:FormElement>
-                                <f:label>
-                                    <Label
-                                        text="Кому"
-                                        required="true" />
-                                </f:label>
-                                <f:fields>
-                                    <Select
-                                        editable="{= !${Table>/new/id}}"
-                                        forceSelection="false"
-                                        selectedKey="{Table>/new/email2}"
-                                        items="{Table>/users}">
-                                        <core:Item
-                                            key="{Table>email}"
-                                            text="{Table>username}" />
-                                    </Select>
-                                </f:fields>
-                            </f:FormElement>
-                            <f:FormElement>
-                                <f:label>
-                                    <Label
-                                        text="Сумма"
-                                        required="true" />
+                                    <Label text="Имя" />
                                 </f:label>
                                 <f:fields>
                                     <Input
-                                        value="{path: 'Table>/new/money',
-                                                type: 'sap.ui.model.type.Integer'}"
-                                        placeholder="Введите сумму" />
-                                </f:fields>
-                            </f:FormElement>
-                            <f:FormElement>
-                                <f:label>
-                                    <Label text="Комментарий" />
-                                </f:label>
-                                <f:fields>
-                                    <Input
-                                        value="{Table>/new/comments}"
-                                        placeholder="Комментарий" />
+                                        value="{Table>/newclaster/nameClaster}"
+                                        placeholder="Имя кластера" />
                                 </f:fields>
                             </f:FormElement>
                         </f:FormContainer>
@@ -94,16 +46,16 @@
                 </f:Form>
             </content>
             <footer>
-                <Toolbar id="otbFooter">
+                <Toolbar>
                     <ToolbarSpacer />
                     <Button
                         type="Accept"
-                        text="Отправить"
-                        press="addEvent" />
+                        text="Создать"
+                        press="addClaster" />
                     <Button
                         type="Reject"
                         text="Отмена"
-                        press="onCloseDialogEvent" />
+                        press="onCloseDialogClaster" />
                 </Toolbar>
             </footer>
         </Page>

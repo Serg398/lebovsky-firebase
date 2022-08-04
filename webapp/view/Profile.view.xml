@@ -60,7 +60,7 @@
                                                 imageSrc="{Table>/generaluser/AvatarUrl}"
                                                 alt="Michael Adams"
                                                 title="{Table>/generaluser/username}"
-                                                subtitle="Организация: Lebovsky"></LightBoxItem>
+                                                subtitle="Организация: Lebovsky" />
                                         </LightBox>
                                     </detailBox>
                                 </Avatar>
@@ -126,13 +126,10 @@
                         <IconTabFilter
                             key="attachments"
                             text="Организации">
-                            <Input
-                                id="newClasterid"
-                                placeholder="Комментарий" />
                             <Button
                                 type="Transparent"
                                 text="Создать кластер"
-                                press='newClaster'>
+                                press='openFragment'>
                                 <layoutData>
                                     <OverflowToolbarLayoutData priority="NeverOverflow" />
                                 </layoutData>
@@ -145,9 +142,10 @@
                                 items="{Table>/mainClasters}">
                                 <CustomListItem
                                     type="Active"
-                                    press="pressEvent">
+                                    press="pressClaster">
                                     <HBox>
                                         <HBox
+                                            width='80%'
                                             alignItems="Center"
                                             alignContent="Center">
                                             <core:Icon
@@ -156,13 +154,17 @@
                                                 size="30px"
                                                 src="sap-icon://group" />
                                             <Text
-                                                width="10rem"
-                                                text="Название:  {Table>name}" />
-                                            <Text text="Ваша роль:  {Table>role}" />
+                                                text="{Table>name}" />
+                                        </HBox>
+                                        <HBox
+                                            width='20%'
+                                            alignItems="Center"
+                                            alignContent="End">
+                                            <Text width='90%' text="Ваша роль:  {Table>role}" />
                                             <core:Icon
+                                                visible="{= ${Table>role} === 'admin'}"
                                                 press="deleteClaster"
                                                 color="#1C4C98"
-                                                width="50px"
                                                 src="sap-icon://delete"
                                                 size="25px" />
                                         </HBox>
